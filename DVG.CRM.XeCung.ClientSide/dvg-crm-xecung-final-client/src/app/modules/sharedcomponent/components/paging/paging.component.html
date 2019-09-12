@@ -1,0 +1,30 @@
+<div class="m_datatable m-datatable m-datatable--default m-datatable--loaded wap-paging">
+  <div class="m-datatable__pager m-datatable--paging-loaded clearfix">
+      <ul class="m-datatable__pager-nav">
+        <li>
+          <a *ngIf="pageIndex ===1" title="Previous" class="m-datatable__pager-link m-datatable__pager-link--prev paging-disable" data-page="1" disabled="disabled"><i class="fa fa-angle-double-left"></i></a>
+          <a *ngIf="pageIndex !==1" title="Previous" class="m-datatable__pager-link m-datatable__pager-link--prev" data-page="1" href="javascript:void(0);" (click)="callParentSearch(1)"><i class="fa fa-angle-double-left"></i></a>
+        </li>    
+        <li>
+          <a *ngIf="pageIndex ===1" title="Previous" class="m-datatable__pager-link m-datatable__pager-link--prev paging-disable" data-page="1" disabled="disabled"><i class="fa fa-angle-left"></i></a>
+          <a *ngIf="pageIndex !==1" title="Previous" class="m-datatable__pager-link m-datatable__pager-link--prev" data-page="1" href="javascript:void(0);" (click)="callParentSearch(previousPage)"><i class="fa fa-angle-left"></i></a>
+        </li>
+        <li *ngFor="let item of getShowIndexPage()">
+          <a *ngIf="item === pageIndex" title="Page {{item}}" class="m-datatable__pager-link m-datatable__pager-link-number m-datatable__pager-link--active">{{item}}</a>
+          <a *ngIf="item !== pageIndex" title="Page {{item}}" class="m-datatable__pager-link m-datatable__pager-link-number" (click)="callParentSearch(item)">{{item}}</a>
+        </li>
+        <li>
+          <a *ngIf="pageIndex === totalPage || totalPage === 0" title="Next" class="m-datatable__pager-link m-datatable__pager-link--next paging-disable" disabled="disabled"><i class="fa fa-angle-right"></i></a>
+          <a *ngIf="pageIndex !== totalPage && totalPage !== 0" title="Next" class="m-datatable__pager-link m-datatable__pager-link--next"  href="javascript:void(0);" (click)="callParentSearch(nextPage)"><i class="fa fa-angle-right"></i></a>
+        </li>
+        <li>
+          <a *ngIf="pageIndex === totalPage || totalPage === 0" title="Next" class="m-datatable__pager-link m-datatable__pager-link--next paging-disable" disabled="disabled"><i class="fa fa-angle-double-right"></i></a>
+          <a *ngIf="pageIndex !== totalPage && totalPage !== 0" title="Next" class="m-datatable__pager-link m-datatable__pager-link--next"  href="javascript:void(0);" (click)="callParentSearch(totalPage)"><i class="fa fa-angle-double-right"></i></a>
+        </li>
+      </ul>
+      <div class="m-datatable__pager-info">    
+        <span class="m-datatable__pager-detail">Displaying <span class="weight-600">{{totalPage > 0 ? pageIndex : 0 }}</span> in total <span class="weight-600">{{totalPage}}</span>  page (<span class="weight-600">{{totalRecord}}</span> records)</span>
+      </div>
+    </div>
+</div>
+  

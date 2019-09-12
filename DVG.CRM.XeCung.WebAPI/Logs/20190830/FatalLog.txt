@@ -1,0 +1,19 @@
+08:55:12	System.Data.SqlClient.SqlException (0x80131904): Procedure or function users_getlistwithtotalrow_username has too many arguments specified.
+   at FluentData.ExecuteQueryHandler.HandleQueryException(Exception exception)
+   at FluentData.ExecuteQueryHandler.ExecuteQuery(Boolean useReader, Action action)
+   at FluentData.DbCommand.QueryMany[TEntity,TList](Action`2 customMapper)
+   at DVG.CRM.Mexico.InfrastructureLayer.Databases.SqlDB.Helpers.SqlDalHelper.ListWithTotalRow[T](String storeName, ICondition condition) in D:\Projects\DVG.CRM.XeCung\DVG.CRM.XeCung.InfrastructureLayer\Databases\SqlDB\Helpers\SqlDalHelper.cs:line 165
+ClientConnectionId:86ece6ca-f4bd-4a38-b4ed-dc595d31a45f
+Error Number:8144,State:2,Class:16	FatalLog	SqlDalHelper.ListWithTotalRow => Logger.FatalLog => Logger.WriteLog
+08:56:26	FluentData.FluentDataException: Could not map: email
+   at FluentData.ExecuteQueryHandler.HandleQueryException(Exception exception)
+   at FluentData.ExecuteQueryHandler.ExecuteQuery(Boolean useReader, Action action)
+   at FluentData.DbCommand.QueryMany[TEntity,TList](Action`2 customMapper)
+   at DVG.CRM.Mexico.InfrastructureLayer.Databases.SqlDB.Helpers.SqlDalHelper.ListWithTotalRow[T](String storeName, ICondition condition) in D:\Projects\DVG.CRM.XeCung\DVG.CRM.XeCung.InfrastructureLayer\Databases\SqlDB\Helpers\SqlDalHelper.cs:line 165	FatalLog	SqlDalHelper.ListWithTotalRow => Logger.FatalLog => Logger.WriteLog
+09:36:22	System.Data.SqlClient.SqlException (0x80131904): Could not find stored procedure 'userrole_getlist_userid'.
+   at FluentData.ExecuteQueryHandler.HandleQueryException(Exception exception)
+   at FluentData.ExecuteQueryHandler.ExecuteQuery(Boolean useReader, Action action)
+   at FluentData.DbCommand.QueryMany[TEntity,TList](Action`2 customMapper)
+   at DVG.CRM.Mexico.InfrastructureLayer.Databases.SqlDB.Helpers.SqlDalHelper.List[T](String storeName, ICondition condition) in D:\Projects\DVG.CRM.XeCung\DVG.CRM.XeCung.InfrastructureLayer\Databases\SqlDB\Helpers\SqlDalHelper.cs:line 144
+ClientConnectionId:e574a97c-dc17-4694-9cc1-7330ea3d7a02
+Error Number:2812,State:62,Class:16	FatalLog	SqlDalHelper.List => Logger.FatalLog => Logger.WriteLog

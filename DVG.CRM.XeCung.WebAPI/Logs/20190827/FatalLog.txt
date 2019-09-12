@@ -1,0 +1,9 @@
+15:41:37	System.ArgumentException: Host can't be null
+   at Npgsql.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken) in C:\projects\npgsql\src\Npgsql\NpgsqlConnector.cs:line 410
+   at Npgsql.ConnectorPool.AllocateLong(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken) in C:\projects\npgsql\src\Npgsql\ConnectorPool.cs:line 246
+   at Npgsql.NpgsqlConnection.<>c__DisplayClass32_0.<<Open>g__OpenLong|0>d.MoveNext() in C:\projects\npgsql\src\Npgsql\NpgsqlConnection.cs:line 301
+--- End of stack trace from previous location where exception was thrown ---
+   at Npgsql.NpgsqlConnection.Open() in C:\projects\npgsql\src\Npgsql\NpgsqlConnection.cs:line 153
+   at DVG.CRM.XeCung.InfrastructureLayer.Databases.PostgreDb.PostgresSQL.InitConnection() in D:\Projects\DVG.CRM.XeCung\DVG.CRM.XeCung.InfrastructureLayer\Databases\PostgreDB\PostgresSQL.cs:line 146
+   at DVG.CRM.XeCung.InfrastructureLayer.Databases.PostgreDb.PostgresSQL..ctor(DBPosition dbPosition, Boolean isInit) in D:\Projects\DVG.CRM.XeCung\DVG.CRM.XeCung.InfrastructureLayer\Databases\PostgreDB\PostgresSQL.cs:line 137
+   at DVG.CRM.XeCung.InfrastructureLayer.Databases.PostgreDb.Helpers.PostgreDalHelper.List[T](String storeName, ICondition condition) in D:\Projects\DVG.CRM.XeCung\DVG.CRM.XeCung.InfrastructureLayer\Databases\PostgreDB\Helpers\PostgreDalHelper.cs:line 161	FatalLog	PostgreDalHelper.List => Logger.FatalLog => Logger.WriteLog

@@ -1,0 +1,335 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+     <div class="header-icon">
+        <i class="fa fa-users"></i>
+     </div>
+     <div class="header-title">
+        <h1>Thêm mới video</h1>
+        <small>Quản lý video</small>
+     </div>
+  </section>
+  <!-- Main content -->
+  <div class="content">
+      <div class="row">
+          <div class="col-sm-12">
+              <div class="card lobicard all_btn_card" id="lobicard-custom-control1" data-sortable="true">
+                  <div class="card-header all_card_btn">
+                      <div class="card-title custom_title m-2">
+                          <a class="btn btn-add" routerLink="/videos"><i class="fa fa-list"></i> Danh sách video </a>  
+                      </div>
+                  </div>    
+                  <form  name="form" (ngSubmit) ="createVideoForm.form.valid && create()" #createVideoForm="ngForm" novalidate>
+                      <div class="card-body row">
+                          
+                          <div class="col-md-3 col-sm-3">
+                              <div class="form-group">
+                                  <label>Loại video <span class="red">*</span> </label>
+                                  <select class="form-control" [(ngModel)]="videoCreateModel.VideoType" name="videotype" required #videotype="ngModel">
+                                    <option *ngFor="let item of videoCreateInit.AllVideoType" value="{{item.Key}}">{{item.Value}}</option>
+                                  </select>
+                                  <div *ngIf="createVideoForm.submitted && videotype.invalid" class="invalid-feedback display-block">
+                                    <div *ngIf="videotype.errors.required">Loại video không được bỏ trống</div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-3 col-sm-3">
+                            <div class="form-group">
+                                <label>Mã video <span class="red">*</span></label>
+                                <input type="text" class="form-control" [(ngModel)]="videoCreateModel.VideoCode" name="videocode" required
+                                       #videocode="ngModel" placeholder="Nhập mã video" maxlength="50">
+                                <ng-container *ngIf="createVideoForm.submitted && videocode.invalid">
+                                   <div class="help-block small text-error" *ngIf="videocode.errors.required">Mã video không được bỏ trống</div>
+                                   <!-- <div class="help-block small text-error" *ngIf="videocode.errors.isusername">Tên user chỉ chứa chữ cái, số và độ dài phải <= 50 kí tự.</div>  -->
+                                 </ng-container> 
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                          <div class="form-group">
+                              <label>Tiêu đề <span class="red">*</span></label>
+                              <input type="text" class="form-control" [(ngModel)]="videoCreateModel.Title" name="videotitle" required
+                                     #videotitle="ngModel" placeholder="Nhập tiêu đề video">
+                              <ng-container *ngIf="createVideoForm.submitted && videotitle.invalid">
+                                 <div class="help-block small text-error" *ngIf="videotitle.errors.required">Tiêu đề không được bỏ trống</div>
+                               </ng-container> 
+                          </div>
+                      </div>
+                          <div class="col-md-12 col-sm-12">
+                              <div class="form-group">
+                                  <label>Link video</label>
+                                  <input type="text" class="form-control" [(ngModel)]="videoCreateModel.Link" name="videolink"
+                                         #videolink="ngModel" placeholder="Nhập đường dẫn video">
+                              </div>
+                          </div>
+                          
+                          <div *ngIf="videoCreateModel.VideoType==='1'"  class="col-md-6 col-sm-6">
+                              <div class="form-group">
+                                  <label>Mã hợp đồng <span class="red">*</span></label>
+                                  <input type="text" class="form-control" [(ngModel)]="videoCreateModel.ContractID" name="contractid" placeholder="Nhập mã hợp đồng" maxlength="50" required #contractid="ngModel">
+                                  <ng-container *ngIf="createVideoForm.submitted && contractid.invalid">
+                                    <div class="help-block small text-error" *ngIf="contractid.errors.required">Mã hợp đồng không được bỏ trống</div>                     
+                                  </ng-container> 
+                              </div>
+                          </div>
+                          <div *ngIf="videoCreateModel.VideoType==='2' || videoCreateModel.VideoType==='1'" class="col-md-6 col-sm-6">
+                              <div class="form-group">
+                                  <label>{{videoCreateModel.VideoType==='1' ? 'Giá trị' : 'Doanh thu'}}</label>
+                                  <input type="text" class="form-control" [(ngModel)]="videoCreateModel.Revenue" name="revenue" placeholder="Nhập {{videoCreateModel.VideoType==='1' ? 'giá trị video' : 'doanh thu video'}}" maxlength="50">
+                              </div>
+                          </div>
+
+                          <div *ngIf="videoCreateModel.VideoType==='2'" class="col-md-6 col-sm-6">
+                              <div class="form-group">
+                                  <label>Ngày thu</label>
+                                  <app-datepickercustom #receiptissueddate
+                                    [idSelector]="'receiptissueddate'"
+                                    [nameSelector]="'receiptissueddate'"
+                                    [placeholderSelector]="'--Nhập ngày thu--'"
+                                    [defaultValue]="videoCreateModel.ReceiptIssuedDate"
+                                    (changedModelDate)="videoCreateModel.ReceiptIssuedDate = $event"
+                                    [isBirthday] = "false">
+                                  </app-datepickercustom>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12">
+                              <div class="form-group">
+                                  <label>Ghi chú</label>  
+                                  <textarea [(ngModel)]="videoCreateModel.Note" placeholder="Ghi chú" name="note" class="form-control" rows="3"></textarea>
+                              </div>
+                          </div>
+                          <div class="col-md-4 col-sm-4">
+                              <div class="form-group">
+                                  <label>Ngày xuất bản</label>
+                                  <app-datepickercustom #publishdate
+                                    [idSelector]="'publishdate'"
+                                    [nameSelector]="'publishdate'"
+                                    [placeholderSelector]="'--Nhập ngày xuất bản--'"
+                                    [defaultValue]="videoCreateModel.PublishDate"
+                                    (changedModelDate)="videoCreateModel.PublishDate = $event"
+                                    [isBirthday] = "false">
+                                  </app-datepickercustom>
+                            </div>
+                          </div>
+                          <div class="col-md-4 col-sm-4">
+                              <div class="form-group">
+                                  <label>Ngày chi</label>
+                                  <app-datepickercustom #spenddate
+                                      [idSelector]="'spenddate'"
+                                      [nameSelector]="'spenddate'"
+                                      [placeholderSelector]="'--Nhập ngày chi--'"
+                                      [defaultValue]="videoCreateModel.SpendDate"
+                                      (changedModelDate)="videoCreateModel.SpendDate = $event"
+                                      [isBirthday] = "false">
+                                  </app-datepickercustom>
+                              </div>
+                          </div>
+                          <div class="col-md-4 col-sm-4">
+                              <div class="form-group">
+                                  <label>Ngày xuất hóa đơn</label>
+                                  <app-datepickercustom #invoiceissueddate
+                                        [idSelector]="'invoiceissueddate'"
+                                        [nameSelector]="'invoiceissueddate'"
+                                        [placeholderSelector]="'--Nhập ngày xuất hóa đơn--'"
+                                        [defaultValue]="videoCreateModel.InvoiceIssuedDate"
+                                        (changedModelDate)="videoCreateModel.InvoiceIssuedDate = $event"
+                                        [isBirthday] = "false">
+                                  </app-datepickercustom>
+                              </div>
+                          </div>
+                          <div class="col-md-12 mt-4">
+                              <div class="card lobicard">
+                                  <div class="card-header" style="padding: 3px !important">
+                                      Chi phí sản xuất ước tính
+                                  </div>
+                                  <div class="card-body">
+                                    <div class="row">
+                                        <div  class="col-md-2 col-sm-12">
+                                            <div class="form-group row">
+                                                <label for="staticEmail">Tổng chi phí</label>
+                                                
+                                                <div class="col-md-8 ">
+                                                  <input type="text" readonly class="form-control"  name="estimatedProductionCost" [(ngModel)] = "videoCreateModel.EstimatedProductionCost" >
+                                                </div>
+                                              </div>
+                                        </div>
+                                        <div  class="col-md-10 col-sm-12">
+                                            <button type="button"  class="btn btn-success" data-toggle="modal" (click)="resetProductionCostCreate();ProductionCostType = 1" data-target="#addProductioncost" > <i class="fa fa-plus"></i> </button>
+                                        </div>
+                                      
+                                    </div>
+                                    <div class="row" *ngIf="videoCreateModel?.EstimatedProductionCostRecords.length > 0">
+                                        <table class="table table-bordered table-striped table-hover">
+                                            <thead class="back_table_color">
+                                              <tr class="info hide-element-phone">
+                                                <th class="w20">#</th>
+                                                <th>Loại chi phí</th>
+                                                <th>Nội dung chi</th>
+                                                <th>Chi phí</th>
+                                                <th>Ngày chi</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr *ngFor="let p of videoCreateModel.EstimatedProductionCostRecords;let i = index">
+                                                <td class="pull-left-phone">
+                                                  <span class="hide-element-out-phone label-bold-550"></span>{{i+1}}
+                                                </td>
+                                                <td class="pull-left-phone">
+                                                  <span class="hide-element-out-phone label-bold-550"></span>{{p.CostTypeText}}
+                                                </td>
+                                                <td class="pull-left-phone">
+                                                  <span class="hide-element-out-phone label-bold-550"></span>{{p.CostContentText}}
+                                                </td>
+                                                <td class="pull-left-phone">
+                                                    <span class="hide-element-out-phone label-bold-550"></span>{{p.Amount}}
+                                                  </td>
+                                                <td class="pull-left-phone">
+                                                  <span class="hide-element-out-phone label-bold-550"></span>{{p.SpendDate}}
+                                                </td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                    </div>
+                                  </div>
+                                </div>
+                          </div>
+                          <div class="col-md-12 mt-4">
+                              <div class="card lobicard">
+                                  <div class="card-header" style="padding: 3px !important">
+                                      Chi phí sản xuất thực tế
+                                  </div>
+                                  <div class="card-body">
+                                      <div class="row">
+                                          <div  class="col-md-2 col-sm-12">
+                                              <div class="form-group row">
+                                                  <label for="staticEmail">Tổng chi phí</label>
+                                                  
+                                                  <div class="col-md-8 ">
+                                                    <input type="text" readonly class="form-control" name="actualdProductionCost" [(ngModel)] = "videoCreateModel.ActualProductionCost" >
+                                                  </div>
+                                                </div>
+                                          </div>
+                                          <div  class="col-md-10 col-sm-12">
+                                              <button type="button"  class="btn btn-success" data-toggle="modal" (click)="resetProductionCostCreate();ProductionCostType = 2" data-target="#addProductioncost" > <i class="fa fa-plus"></i> </button>
+                                          </div>
+                                        
+                                      </div>
+                                      <div class="row" *ngIf="videoCreateModel?.ActualProductionCostRecords.length > 0">
+                                          <table class="table table-bordered table-striped table-hover">
+                                              <thead class="back_table_color">
+                                                <tr class="info hide-element-phone">
+                                                  <th class="w20">#</th>
+                                                  <th>Loại chi phí</th>
+                                                  <th>Nội dung chi</th>
+                                                  <th>Chi phí</th>
+                                                  <th>Ngày chi</th>
+                                                  <th>Thao tác</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr *ngFor="let p of videoCreateModel.ActualProductionCostRecords;let i = index">
+                                                  <td class="pull-left-phone">
+                                                    <span class="hide-element-out-phone label-bold-550"></span>{{i+1}}
+                                                  </td>
+                                                  <td class="pull-left-phone">
+                                                    <span class="hide-element-out-phone label-bold-550"></span>{{p.CostTypeText}}
+                                                  </td>
+                                                  <td class="pull-left-phone">
+                                                    <span class="hide-element-out-phone label-bold-550"></span>{{p.CostContentText}}
+                                                  </td>
+                                                  <td class="pull-left-phone">
+                                                      <span class="hide-element-out-phone label-bold-550"></span>{{p.Amount}}
+                                                    </td>
+                                                  <td class="pull-left-phone">
+                                                    <span class="hide-element-out-phone label-bold-550"></span>{{p.SpendDate}}
+                                                  </td>
+                                                  <td class="pull-left-phone">
+                                                      <button type="button" (click)="deleteProductionCost(p)" class="btn btn-sm btn-danger btn-option"> <i class="fa fa-remove"></i> </button>
+                                                  </td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                      </div>
+                                  </div>
+                                </div>
+                          </div>
+                          <div class="col-md-12">
+                              <div class="reset-button">
+                                  <button type="submit" style="margin-right: 10px;" class="btn btn-success"> Lưu</button>
+                                  <button type="button" (click)="refresh()" class="btn btn-warning" style="margin-right: 10px;">Làm mới</button>
+                                  <a [routerLink]="[ '/videos' ]">
+                                    <button type="button" class="btn btn-danger" style="margin-right: 10px;">Đóng</button>
+                                  </a>
+                              </div>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+  <!-- /.content -->
+</div>
+
+<!-- Modals -->
+<div class="modal fade" id="addProductioncost" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Thêm chi phí sản xuất {{ProductionCostType===1?'ước tính':'thực tế'}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <form name="form" #formProductionCost="ngForm" (ngSubmit)="formProductionCost.form.valid && addProductionCost()" novalidate>
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Loại chi phí <span class="red">*</span></label>
+              <select id="expenditureType" class="form-control m-select2" data-dropdownParent="#addProductioncost" data-placeholder="Chọn loại chi phí" [(ngModel)]="ProductionCostCreate.CostType" name="pcxpendituretype" required #pcxpendituretype="ngModel">
+                <option value="0" >--Chọn loại chi phí--</option>
+                <option *ngFor="let item of videoCreateInit.AllExpenditureInKeyValue" value="{{item.Key}}">{{item.Value}}</option>
+              </select>
+              <input type="hidden" [(ngModel)]="ProductionCostCreate.CostType" name="hidcosttype" required #hidcosttype="ngModel" appSmallerEqualZero />
+              <div *ngIf="formProductionCost.submitted && hidcosttype.invalid" class="invalid-feedback display-block">
+                <div *ngIf="hidcosttype.errors.isSmallerEqualZero">Loại chi phí không được bỏ trống</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Nội dung chi <span class="red">*</span></label>
+              <select class="form-control" [(ngModel)]="ProductionCostCreate.CostContent" name="pccosttype" required #pccosttype="ngModel">
+                  <option value="0" [selected]="true">--Chọn nội dung chi--</option>
+                <option *ngFor="let item of videoCreateInit.AllCostContent" value="{{item.Key}}">{{item.Value}}</option>
+              </select>
+              <input type="hidden" [(ngModel)]="ProductionCostCreate.CostContent" name="hidcostcontent" required #hidcostcontent="ngModel" appSmallerEqualZero />
+              <div *ngIf="formProductionCost.submitted && hidcostcontent.invalid" class="invalid-feedback display-block">
+                  <div *ngIf="hidcostcontent.errors.isSmallerEqualZero">Nội dung chi không được bỏ trống</div>
+                </div>
+            </div>
+            <div class="form-group">
+              <label>Chi phí <span class="red">*</span></label>
+              <input type="text" class="form-control" [(ngModel)]="ProductionCostCreate.Amount" name="pcamount" #pcamount="ngModel" placeholder="Nhập chi phí" maxlength="50" required>
+              <div *ngIf="formProductionCost.submitted && pcamount.invalid" class="invalid-feedback display-block">
+                <div *ngIf="pcamount.errors.required">Chi phí không được bỏ trống</div>
+              </div>
+            </div> 
+              <div class="form-group">
+                  <label>Ngày chi</label>
+                  <app-datepickercustom #pcspenddate
+                      [idSelector]="'pcspenddate'"
+                      [nameSelector]="'pcspenddate'"
+                      [placeholderSelector]="'--Nhập ngày chi--'"
+                      [defaultValue]="ProductionCostCreate.SpendDate"
+                      (changedModelDate)="ProductionCostCreate.SpendDate = $event"
+                      [isBirthday] = "false">
+                  </app-datepickercustom>
+              </div>      
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn green_btn custom_grreen2">Thêm</button>   
+            <button type="button" id="closeAddProductioncost" class="btn btn-danger" data-dismiss="modal">Đóng</button>        
+          </div>
+        </form>
+      </div>
+    </div>
+</div>

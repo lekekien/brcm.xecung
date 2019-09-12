@@ -1,0 +1,101 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="header-icon">
+        <i class="fa fa-user-plus"></i>
+      </div>
+      <div class="header-title">
+        <h1>Danh sách quảng cáo</h1>
+        <small>Quản lý quảng cáo</small>
+      </div>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-sm-12">
+              <div class="card lobicard all_btn_card" id="lobicard-custom-control1" data-sortable="true">
+                <div class="card-header all_card_btn">
+                  <div class="card-title custom_title">
+                    <h4>Tìm kiếm</h4>
+                  </div>
+                </div>
+                <div class="card-body row">
+                  <div class="col-lg-4 col-md-6">
+                    <div class="form-group">
+                      <div class="control-container">
+                        <textarea style="max-height: 35px" class="form-control"  name="filteruser"  class="form-control m-input"
+                            placeholder="Từ khóa"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-6">
+                    <div class="form-group">
+                      <div class="control-container">
+                        <!-- <select id="selVideoType" name="videotype" [(ngModel)]="videoIndex.VideoType" placeholder="--Loại video--" class="form-control" tabindex="4">
+                          <option value="0">--Loại quảng cáo--</option>
+                          <option *ngFor="let item of videoViewInit.AllVideoType" value="{{item.Key}}">{{item.Value}}</option>
+                        </select> -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-6 mg-bot-12">
+                    <div class="form-group">
+                      <!-- <div class="control-container">
+                        <app-datepickercustom 
+                          [idSelector]="'dpSearchVideoSpendDate'" 
+                          [nameSelector]="'dpSearchVideoSpendDate'"
+                          [placeholderSelector]="'--Ngày chi--'"
+                          (changedModelDate)="videoIndex.SpendDate = $event">
+                        </app-datepickercustom>
+                      </div> -->
+                    </div>
+                  </div>
+                  <div class="col-lg-1 col-md-3">
+                    <div class="form-group">
+                      <div class="control-container">
+                        <button class="btn btn-success" style="width: 100%;" (click)="getAllVideos(1)" name="search" type="button">
+                          Tìm kiếm
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="col-lg-1 col-md-3">
+                    <div class="form-group">
+                      <div class="control-container">
+                        <button class="btn btn-primary" style="width: 100%;" (click)="userIndex.FilterKeyWord='';getAllVideos(1)" name="search" type="button">
+                          Làm lại
+                        </button>
+                      </div>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+      <div class="row">
+        <div class="col-lg-12 pinpin">
+          <div class="card lobicard" id="lobicard-custom-control" data-sortable="true">
+            <div class="card-header">
+              <div class="card-title custom_title">
+                <h4>Danh sách video</h4>
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- Plugin content:powerpoint,txt,pdf,png,word,xl -->
+              <div class="btn-group btn-head" role="group">
+                <div class="buttonexport">
+                  <a href="javascript:void(0);" [routerLink]="[ '/advertisements/create']" class="btn btn-add">
+                    <i class="fa fa-plus"></i> Thêm quảng cáo
+                  </a>
+                </div>
+              </div>
+              <!-- ./Plugin content:powerpoint,txt,pdf,png,word,xl -->
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+  </div>
+  

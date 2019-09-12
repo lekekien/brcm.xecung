@@ -1,0 +1,9 @@
+
+<div class="dvDateInput">
+  <input type="text" class="dateInput form-control fix-form-control" bsDatepicker [id]="idSelector" [name]="nameSelector" readonly
+  [placeholder]="placeholderSelector" [bsConfig] = "bsConfig" [(bsValue)]="bsValueDate" (bsValueChange) = "changedDate($event)"/>
+  <button  (click)="changedDate(null)" type="button" class="btn btn-labeled btn-danger closeDateInput ">
+    <i class="fa fa-times"></i>
+  </button>
+</div>
+

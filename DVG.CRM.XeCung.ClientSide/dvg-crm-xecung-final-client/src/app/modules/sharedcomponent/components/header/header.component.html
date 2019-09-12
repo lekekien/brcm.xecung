@@ -1,0 +1,49 @@
+<header class="main-header">
+  <a [routerLink]="[ '/']" class="logo">
+    <!-- Logo -->
+    <span class="logo-mini">
+      <img src="./assets/dist/img/mini-logo.png" alt="">
+    </span>
+    <span class="logo-lg">
+      <img style="max-width: 150px; max-height: 30px;" src="./assets/logos/logo2.png" alt="">
+    </span>
+  </a>
+  <!-- Header Navbar -->
+  <nav class="navbar navbar-expand py-0">
+    <a href="#" class="sidebar-toggle" (click)="CustomerSideBar()" data-toggle="offcanvas" role="button">
+      <!-- Sidebar toggle button-->
+      <span class="pe-7s-angle-left-circle"></span>
+    </a>
+    <!-- searchbar-->
+    <!-- <a href="#search"><span class="pe-7s-search"></span></a>
+        <div id="search">
+            <button type="button" class="close">×</button>
+            <form>
+                <input type="search" value="" placeholder="Search.." />
+                <button type="submit" class="btn btn-add">Search...</button>
+            </form>
+        </div> -->
+    <div class="collapse navbar-collapse navbar-custom-menu">
+      <ul class="navbar-nav ml-auto">
+        <!-- User -->
+        <li class="nav-item dropdown dropdown-user">
+          <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="userheader">
+              {{userHeader.UserName}}
+            </div>
+            <img src="./assets/logos/no-avatar.png" class="rounded-circle" width="50" height="50" alt="user">
+          </a>
+          <div class="dropdown-menu drop_down">
+            <div class="menus">
+              <a class="dropdown-item" href="javascript:void(0);" [routerLink]="[ '/users/userprofile', userHeader.Id]"><i
+                  class="fa fa-user"></i> User Profile</a>
+              <!-- <a class="dropdown-item" href="#"><i class="fa fa-inbox"></i> Inbox</a> -->
+              <a class="dropdown-item" href="javascript:void(0);" (click)="confirmLogout()"><i
+                  class="fa fa-sign-out"></i> Signout</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>

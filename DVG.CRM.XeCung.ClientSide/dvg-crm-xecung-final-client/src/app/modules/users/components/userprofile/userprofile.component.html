@@ -1,0 +1,204 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+     <div class="header-icon">
+        <i class="fa fa-users"></i>
+     </div>
+     <div class="header-title">
+        <h1>Thông tin user</h1>
+        <small>Quản lý user</small>
+     </div>
+  </section>
+  <!-- Main content -->
+  <div class="content">
+      <div class="row">
+          <div class="col-sm-12">
+              <div class="card lobicard all_btn_card" id="lobicard-custom-control1" data-sortable="true">
+                  <div class="card-header all_card_btn">
+                      <div class="card-title custom_title margin-bottom-0">
+                          <ul class="nav nav-tabs" id="myTab1" role="tablist">
+                          <li class="nav-item">
+                                  <a (click)="getToken(id)" class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">
+                                      Thông tin cá nhân
+                                  </a>
+                          </li>
+                          <li class="nav-item">
+                                  <a (click)="[getToken(id), refresh()]" class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile"     aria-selected="false">
+                                      Đổi mật khẩu
+                                  </a>
+                          </li>
+                          </ul>
+                      </div>
+                  </div>    
+                  <div class="row user-profile card-body">
+                         <div class="tab-content">
+                            <div class="tab-pane fade active show" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                                <form  name="form" (ngSubmit) ="f.form.valid && update()" #f="ngForm" novalidate >
+                                    <div class="card-body row">
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="form-group">
+                                                <label>Tên user -- <span>ID: <strong>{{userCreateModel.Id}}</strong></span></label>
+                                                <input readonly type="text" class="form-control" [(ngModel)]="userCreateModel.UserName" name="username" required appUsernameValidator
+                                                       #username="ngModel" placeholder="Enter Username" maxlength="50">
+                                                <ng-container *ngIf="f.submitted && username.invalid">
+                                                   <div class="help-block small text-error" *ngIf="username.errors.required">Tên user không được bỏ trống</div>
+                                                   <div class="help-block small text-error" *ngIf="username.errors.isusername">Tên user chỉ chứa chữ cái, số và độ dài phải <= 50 kí tự.</div> 
+                                                 </ng-container> 
+                                            </div>
+                                        </div>                    
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="form-group">
+                                                <label>Họ tên <span class="red">*</span></label>
+                                                <input type="text" class="form-control" [(ngModel)]="userCreateModel.FullName" name="name" required #name="ngModel" appOnlyAllspacecheck placeholder="Enter Full name">
+                                                <ng-container *ngIf="f.submitted && name.invalid">
+                                                    <div class="help-block small text-error" *ngIf="name.errors.required">Họ tên không được bỏ trống</div>
+                                                    <div class="help-block small text-error" *ngIf="name.errors.isallspace">Họ tên không hợp lệ</div>
+                                                </ng-container> 
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="form-group">
+                                                <label>Địa chỉ email <span class="red">*</span></label>
+                                                <input type="text" class="form-control" [(ngModel)]="userCreateModel.Email" name="email"required email #email="ngModel" placeholder="Enter email">
+                                                <ng-container *ngIf="f.submitted && email.invalid">
+                                                    <div class="help-block small text-error" *ngIf="email.errors.required">Email không được bỏ trống</div>
+                                                    <div class="help-block small text-error" *ngIf="email.errors.email">Email không hợp lệ</div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-3">
+                                            <div class="form-group">
+                                                <label>Số điện thoại <span class="red">*</span></label>
+                                                <input type="text" class="form-control " [(ngModel)]="userCreateModel.PhoneNumber" name="phonenumber" #phonenumber="ngModel" required appPhonenumberValidator placeholder="Enter phone number">
+                                                <ng-container *ngIf="f.submitted && phonenumber.invalid">
+                                                    <div class="help-block small text-error" *ngIf="phonenumber.errors.required">Số điện thoại không được bỏ trống</div>
+                                                    <div class="help-block small text-error" *ngIf="phonenumber.errors.isphone">Số điện thoại không hợp lệ (eg: 07123456789 | 0812-345-6789 | 0912-345-6789)</div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-3">
+                                            <div class="form-group">
+                                                <label>Ngày sinh</label>
+                                                <app-datepickercustom #childDatepiker
+                                                  [idSelector]="'birthday'"
+                                                  [nameSelector]="'birthday'"
+                                                  [placeholderSelector]="'--Enter Birthday--'"
+                                                  [defaultValue]="userCreateModel.BirthdayConvert"
+                                                  (changedModelDate)="userCreateModel.Birthday = $event"
+                                                  [isBirthday] = "true">
+                                                </app-datepickercustom>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="form-group">
+                                                <label>Địa chỉ</label>
+                                                <input type="text" class="form-control" [(ngModel)]="userCreateModel.Address" name="address" placeholder="Enter address">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="form-group">
+                                                <label>Quyền trong hệ thống</label>
+                                                <div class="form-control" readonly>{{userCreateModel.RoleName}}</div>
+                                            </div>
+                                        </div>                                      
+                                        
+                                        <div class="col-md-12 col-sm-12">
+                                            <div class="form-group">
+                                                <label>Ghi chú</label>  
+                                                <textarea class="form-control textarea" [(ngModel)]="userCreateModel.Note" name="note"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="reset-button">
+                                                <button type="submit" id="btnAdd" style="margin-right: 10px;" class="btn btn-success"> Lưu</button>
+                                                <a [routerLink]="[ '/users' ]">
+                                                  <button type="button" class="btn btn-danger" style="margin-right: 10px;">Đóng</button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12">
+                                            <div class="form-group">
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12">
+                                            <div class="form-group">
+                                                <span>Tạo bởi:  <strong>{{userCreateModel.CreatedBy}}</strong></span><br>
+                                                <span>Ngày tạo:  <strong>{{userCreateModel.CreatedDate | date: 'MM/dd/yyyy'}}</strong></span><br>
+                                                <span>Chỉnh sửa bởi:  <strong>{{userCreateModel.LastModifiedBy}}</strong></span><br>
+                                                <span>Ngày chỉnh sửa:  <strong>{{userCreateModel.LastModifiedDate | date:'MM/dd/yyyy'}}</strong></span><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                  <form name="form" (ngSubmit)="formchangpass.form.valid && changePassWord()" #formchangpass="ngForm" novalidate>
+                                      <div class="card-body row">
+                                          <div class="col-md-12">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>
+                                                      Mật khẩu hiện tại<span class="red"> *</span>
+                                                    </label>
+                                                    <input type="password" class="form-control" [(ngModel)]="changePass.CurrentPassword" name="curentpassword" appPasswordValidator required #curentpassword="ngModel" placeholder="--Enter Password--" maxlength="50">
+                                                    <ng-container *ngIf="formchangpass.submitted && curentpassword.invalid">
+                                                      <div class="help-block small text-error" *ngIf="curentpassword.errors.required">Current Password is required</div>
+                                                      <div class="help-block small text-error" *ngIf="curentpassword.errors.ispassword">Current Password is invalid and length >= 6 </div>
+                                                    </ng-container>
+                                                  </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-12">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>
+                                                      Mật khẩu mới<span class="red"> *</span>
+                                                    </label>
+                                                    <input type="password" class="form-control " [(ngModel)]="changePass.NewPassword" name="newpassword" appPasswordValidator required #newpassword="ngModel" placeholder="--Enter New Password--">
+                                                    <ng-container *ngIf="formchangpass.submitted && newpassword.invalid">
+                                                      <div class="help-block small text-error" *ngIf="newpassword.errors.required">New Password is required</div>
+                                                      <div class="help-block small text-error" *ngIf="newpassword.errors.ispassword">New Password is invalid and length >= 6</div>
+                                                    </ng-container>
+                                                  </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-12">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>
+                                                      Xác minh mật khẩu mới<span class="red"> *</span>
+                                                    </label>
+                                                    <input type="password" class="form-control " [(ngModel)]="changePass.ConfirmNewPassword" name="confirmnewpassword" appPasswordMatch="newpassword" appPasswordValidator  required #confirmnewpassword="ngModel" placeholder="--Enter Confirm Password--">
+                                                    <ng-container *ngIf="formchangpass.submitted && confirmnewpassword.invalid">
+                                                      <div class="help-block small text-error" *ngIf="confirmnewpassword.errors.required">Confirm New Password is required</div>
+                                                      <div class="help-block small text-error" *ngIf="confirmnewpassword.errors.ispassword">Confirm New Password is invalid and length >= 6</div>
+                                                      <div class="help-block small text-error" *ngIf="confirmnewpassword.errors.isPasswordMatch">New password and confirmation password do not match</div>
+                                                    </ng-container>
+                                                  </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-12">
+                                              <div class="form-group">
+                                                <div class="col-md-6">
+                                                    <div class="reset-button">
+                                                        <button type="submit" style="margin-right: 10px;" class="btn btn-success"> Lưu</button>
+                                                        <button type="button" (click)="refresh()" class="btn btn-warning" style="margin-right: 10px;">Làm lại</button>
+                                                        <a [routerLink]="[ '/users' ]">
+                                                          <button type="button" class="btn btn-danger" style="margin-right: 10px;">Đóng</button>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </form>
+                            </div>
+                         </div>
+                   </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- /.content -->
+</div>

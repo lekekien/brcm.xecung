@@ -1,0 +1,90 @@
+@media only screen and (max-width: 600px) {
+    .hide-element-phone {
+      display: none !important;
+    }
+  
+    .pull-left-phone {
+      float: left;
+      width: 100%;
+    }
+  
+    td.pull-left-phone {
+      border: none !important;
+    }
+  
+    .pag-bordered {
+      border-top: 0 !important;
+      border-bottom: 1px solid #e4e5e7;
+    }
+  
+    .pag-in-row {
+      padding: 9px 5px 10px 8px;
+    }
+  
+    .padding-mobile-0 {
+      padding: 0 !important;
+    }
+  
+    .mg-bot-12 {
+      margin-bottom: 12px;
+    }
+  
+    .toggle-wap {
+      float: left;
+    }
+  
+    .toggle-wap-icon {
+      float: right;
+    }
+  
+    .table-striped tbody tr:nth-of-type(even):hover {
+      background-color: rgb(255, 255, 255);
+    }
+  
+    .wap-padding-bottom-15 {
+      padding-bottom: 15px !important;
+    }
+  
+    .wap-lead-tab .tab-total {
+      width: 40%;
+  
+    }
+  
+    .wap-lead-tab .tab-assign {
+      width: 60%;
+    }
+  
+    .wap-lead-tab a {
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+  
+    .wap-paging .m-datatable__pager-link {
+      min-width: inherit !important;
+      width: 30px !important;
+    }
+  }
+  
+  tr .paymentInfo {
+    padding: 0 5px 0 0 !important;
+  }
+  
+  td.paymentStatus span {
+    margin-left: 5px;
+  }
+  
+  .main-sidebar {
+    padding-top: 70px !important;
+  }
+  
+  
+  @media only screen and (min-width: 601px) {
+    .hide-element-out-phone {
+      display: none !important;
+    }
+  
+    .fixedInWeb {
+      position: fixed !important;
+    }
+  }
+  

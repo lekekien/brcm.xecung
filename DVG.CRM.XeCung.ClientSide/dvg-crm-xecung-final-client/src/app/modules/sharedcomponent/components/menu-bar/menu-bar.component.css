@@ -1,0 +1,13 @@
+.main-sidebar .logo-lg{
+    padding-left: 50px;
+    margin-bottom: 20px;
+    display: inline-block;
+    margin-top: 10px;
+    max-width: 150px; 
+    max-height: 30px;
+}
+
+.main-sidebar .logo-lg img{
+    width: 150px;
+    height: 30px;
+}

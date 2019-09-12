@@ -1,0 +1,207 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+     <div class="header-icon">
+        <i class="fa fa-users"></i>
+     </div>
+     <div class="header-title">
+        <h1>Sửa thông tin video</h1>
+        <small>Quản lý video</small>
+     </div>
+  </section>
+  <!-- Main content -->
+  <div class="content">
+      <div class="row">
+          <div class="col-sm-12">
+              <div class="card lobicard all_btn_card" id="lobicard-custom-control1" data-sortable="true">
+                  <div class="card-header all_card_btn">
+                      <div class="card-title custom_title m-2">
+                          <a class="btn btn-add" routerLink="/videos"><i class="fa fa-list"></i> Danh sách video </a>  
+                      </div>
+                  </div>    
+                  <form  name="form" (ngSubmit) ="editVideoForm.form.valid && update()" #editVideoForm="ngForm" novalidate>
+                      <div class="card-body row">
+                          
+                          <div class="col-md-3 col-sm-3">
+                              <div class="form-group">
+                                  <label>Loại video <span class="red">*</span> </label>
+                                  <select class="form-control" [ngModel]="videoEditModel.VideoType" (ngModelChange)="changeVideoType($event)" name="videotype" required #videotype="ngModel">
+                                    <option *ngFor="let item of videoCreateInit.AllVideoType" value="{{item.Key}}">{{item.Value}}</option>
+                                  </select>
+                                  <div *ngIf="editVideoForm.submitted && videotype.invalid" class="invalid-feedback display-block">
+                                    <div *ngIf="videotype.errors.required">Loại video không được bỏ trống</div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-3 col-sm-3">
+                            <div class="form-group">
+                                <label>Mã video <span class="red">*</span></label>
+                                <input type="text" class="form-control" [(ngModel)]="videoEditModel.VideoCode" name="videocode" required
+                                       #videocode="ngModel" placeholder="Nhập mã video" maxlength="50">
+                                <ng-container *ngIf="editVideoForm.submitted && videocode.invalid">
+                                   <div class="help-block small text-error" *ngIf="videocode.errors.required">Mã video không được bỏ trống</div>
+                                   <!-- <div class="help-block small text-error" *ngIf="videocode.errors.isusername">Tên user chỉ chứa chữ cái, số và độ dài phải <= 50 kí tự.</div>  -->
+                                 </ng-container> 
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                          <div class="form-group">
+                              <label>Tiêu đề <span class="red">*</span></label>
+                              <input type="text" class="form-control" [(ngModel)]="videoEditModel.Title" name="videotitle" required
+                                     #videotitle="ngModel" placeholder="Nhập tiêu đề video">
+                              <ng-container *ngIf="editVideoForm.submitted && videotitle.invalid">
+                                 <div class="help-block small text-error" *ngIf="videotitle.errors.required">Tiêu đề không được bỏ trống</div>
+                               </ng-container> 
+                          </div>
+                        </div>
+                          <div class="col-md-12 col-sm-12">
+                              <div class="form-group">
+                                  <label>Link video</label>
+                                  <input type="text" class="form-control" [(ngModel)]="videoEditModel.Link" name="videolink"
+                                         #videolink="ngModel" placeholder="Nhập đường dẫn video">
+                              </div>
+                          </div>
+                          
+                          <div *ngIf="videoEditModel.VideoType==='1'"  class="col-md-6 col-sm-6">
+                              <div class="form-group">
+                                  <label>Mã hợp đồng <span class="red">*</span></label>
+                                  <input type="text" class="form-control" [(ngModel)]="videoEditModel.ContractID" name="contractid" placeholder="Nhập mã hợp đồng" maxlength="50" required #contractid="ngModel">
+                                  <ng-container *ngIf="editVideoForm.submitted && contractid.invalid">
+                                    <div class="help-block small text-error" *ngIf="contractid.errors.required">Mã hợp đồng không được bỏ trống</div>                     
+                                  </ng-container> 
+                              </div>
+                          </div>
+                          <div *ngIf="videoEditModel.VideoType==='2' || videoEditModel.VideoType==='1'" class="col-md-6 col-sm-6">
+                              <div class="form-group">
+                                  <label>{{videoEditModel.VideoType==='1' ? 'Giá trị' : 'Doanh thu'}}</label>
+                                  <input type="text" class="form-control" [(ngModel)]="videoEditModel.Revenue" name="revenue" placeholder="Nhập {{videoEditModel.VideoType==='1' ? 'giá trị video' : 'doanh thu video'}}" maxlength="50">
+                              </div>
+                          </div>
+
+                          <div *ngIf="videoEditModel.VideoType==='2'" class="col-md-6 col-sm-6">
+                              <div class="form-group">
+                                  <label>Ngày thu</label>
+                                  <app-datepickercustom #receiptissueddate
+                                    [idSelector]="'receiptissueddate'"
+                                    [nameSelector]="'receiptissueddate'"
+                                    [placeholderSelector]="'--Nhập ngày thu--'"
+                                    [defaultValue]="videoEditModel.ReceiptIssuedDate"
+                                    (changedModelDate)="videoEditModel.ReceiptIssuedDate = $event"
+                                    [isBirthday] = "false">
+                                  </app-datepickercustom>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12">
+                              <div class="form-group">
+                                  <label>Ghi chú</label>  
+                                  <textarea [(ngModel)]="videoEditModel.Note" placeholder="Ghi chú" name="note" class="form-control" rows="3"></textarea>
+                              </div>
+                          </div>
+                          <div class="col-md-4 col-sm-4">
+                              <div class="form-group">
+                                  <label>Ngày xuất bản</label>
+                                  <app-datepickercustom #publishdate
+                                    [idSelector]="'publishdate'"
+                                    [nameSelector]="'publishdate'"
+                                    [placeholderSelector]="'--Nhập ngày xuất bản--'"
+                                    [defaultValue]="videoEditModel.PublishDate"
+                                    (changedModelDate)="videoEditModel.PublishDate = $event"
+                                    [isBirthday] = "false">
+                                  </app-datepickercustom>
+                            </div>
+                          </div>
+                          <div class="col-md-4 col-sm-4">
+                              <div class="form-group">
+                                  <label>Ngày chi</label>
+                                  <app-datepickercustom #spenddate
+                                      [idSelector]="'spenddate'"
+                                      [nameSelector]="'spenddate'"
+                                      [placeholderSelector]="'--Nhập ngày chi--'"
+                                      [defaultValue]="videoEditModel.SpendDate"
+                                      (changedModelDate)="videoEditModel.SpendDate = $event"
+                                      [isBirthday] = "false">
+                                  </app-datepickercustom>
+                              </div>
+                          </div>
+                          <div class="col-md-4 col-sm-4">
+                              <div class="form-group">
+                                  <label>Ngày xuất hóa đơn</label>
+                                  <app-datepickercustom #invoiceissueddate
+                                        [idSelector]="'invoiceissueddate'"
+                                        [nameSelector]="'invoiceissueddate'"
+                                        [placeholderSelector]="'--Nhập ngày xuất hóa đơn--'"
+                                        [defaultValue]="videoEditModel.InvoiceIssuedDate"
+                                        (changedModelDate)="videoEditModel.InvoiceIssuedDate = $event"
+                                        [isBirthday] = "false">
+                                  </app-datepickercustom>
+                              </div>
+                          </div>
+                          <div class="col-md-12 mt-4">
+                              <div class="card lobicard">
+                                  <div class="card-header" style="padding: 3px !important">
+                                      Chi phí sản xuất ước tính
+                                  </div>
+                                  <div class="card-body">
+                                    <div class="row">
+                                        <div  class="col-md-2 col-sm-12">
+                                            <div class="form-group row">
+                                                <label for="staticEmail">Tổng chi phí</label>
+                                                
+                                                <div class="col-md-8 ">
+                                                  <input type="text" readonly class="form-control"  name="estimatedProductionCost" [(ngModel)] = "videoEditModel.EstimatedProductionCost" >
+                                                </div>
+                                              </div>
+                                        </div>
+                                        <div  class="col-md-10 col-sm-12">
+                                            <button type="button"  class="btn btn-success" data-toggle="modal" (click)="resetProductionCostCreate();ProductionCostType = 1" data-target="#addProductioncost" > <i class="fa fa-plus"></i> </button>
+                                        </div>
+                                      
+                                    </div>
+                                  </div>
+                                </div>
+                          </div>
+                          <div class="col-md-12 mt-4">
+                              <div class="card lobicard">
+                                  <div class="card-header" style="padding: 3px !important">
+                                      Chi phí sản xuất thực tế
+                                  </div>
+                                  <div class="card-body">
+                                      <div class="row">
+                                          <div  class="col-md-2 col-sm-12">
+                                              <div class="form-group row">
+                                                  <label for="staticEmail">Tổng chi phí</label>
+                                                  
+                                                  <div class="col-md-8 ">
+                                                    <input type="text" readonly class="form-control" name="actualdProductionCost" [(ngModel)] = "videoEditModel.ActualProductionCost" >
+                                                  </div>
+                                                </div>
+                                          </div>
+                                          <div  class="col-md-10 col-sm-12">
+                                              <button type="button"  class="btn btn-success" data-toggle="modal" (click)="resetProductionCostCreate();ProductionCostType = 2" data-target="#addProductioncost" > <i class="fa fa-plus"></i> </button>
+                                          </div>
+                                        
+                                      </div>
+                                  </div>
+                                </div>
+                          </div>
+                          <div class="col-md-12">
+                              <div class="reset-button">
+                                  <button type="submit" style="margin-right: 10px;" class="btn btn-success"> Lưu</button>
+                                  <button type="button" (click)="refresh()" class="btn btn-warning" style="margin-right: 10px;">Làm mới</button>
+                                  <a [routerLink]="[ '/videos' ]">
+                                    <button type="button" class="btn btn-danger" style="margin-right: 10px;">Đóng</button>
+                                  </a>
+                              </div>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+  <!-- /.content -->
+</div>
+
+<!-- Modals -->

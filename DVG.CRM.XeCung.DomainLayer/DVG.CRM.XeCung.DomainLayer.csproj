@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DVG.CRM.XeCung.Data\DVG.CRM.XeCung.Data.csproj" />
+    <ProjectReference Include="..\DVG.CRM.XeCung.InfrastructureLayer\DVG.CRM.XeCung.InfrastructureLayer.csproj" />
+  </ItemGroup>
+
+</Project>

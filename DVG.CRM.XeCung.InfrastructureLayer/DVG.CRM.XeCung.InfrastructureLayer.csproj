@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+    <PackageReference Include="Dapper" Version="1.60.6" />
+    <PackageReference Include="FluentData" Version="3.0.1" />
+    <PackageReference Include="FluentValidation" Version="8.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.1" />
+    <PackageReference Include="NLog" Version="4.6.0" />
+    <PackageReference Include="Npgsql" Version="4.0.5" />
+    <PackageReference Include="ServiceStack.Redis" Version="5.4.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,92 @@
+<!-- =============================================== -->
+<!-- Left side column. contains the sidebar -->
+<aside class="main-sidebar">
+    <span class="logo-lg hide-element-out-phone" >
+        <img alt="" src="./assets/logos/logo2.png">
+    </span>
+    <!-- sidebar -->
+    <div class="sidebar">
+        <!-- sidebar menu -->
+        <ul class="sidebar-menu">
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a [routerLink]="[ '/home']" (click)="closeMenu();"><i class="fa fa-tachometer"></i><span>Home</span>
+                    <span class="pull-right-container"></span>
+                </a>
+            </li>
+            <li routerLinkActive="treeview active" class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-users"></i><span>Customers</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left float-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact: true}">
+                        <a href="javascript:void(0);" (click)="closeMenu();" [routerLink]="[ '/customer/create']">Add
+                            Customer</a>
+                    </li>
+                    <li [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact: true}">
+                        <a href="javascript:void(0);" (click)="closeMenu();" [routerLink]="[ '/customer']">Customers File</a>
+                    </li>
+                    <li [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact: true}">
+                        <a href="javascript:void(0);" (click)="closeMenu();" [routerLink]="[ '/customerlead']">Lead File</a>
+                    </li>
+                </ul>
+            </li>
+            <li routerLinkActive="treeview active" class="treeview">
+                <a [routerLink]="[ '/contact']">
+                    <i class="fa fa-address-book"></i><span>Contact Management</span>
+                </a>
+            </li>
+            <!-- <li routerLinkActive="treeview active" class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-shopping-basket"></i><span>Payment</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left float-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li routerLinkActive="active" (click)="closeMenu();" [routerLinkActiveOptions]="{exact: true}">
+                        <a href="javascript:void(0);" (click)="closeMenu();" [routerLink]="[ '/payment/create']">Add New Payment</a>
+                    </li>
+                    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a href="javascript:void(0);" (click)="closeMenu();" [routerLink]="[ '/payment']">List Payment</a>
+                    </li>
+                </ul>
+            </li> -->
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-user-circle"></i><span>Quản lý dịch vụ</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left float-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li routerLinkActive="active" (click)="closeMenu();" [routerLinkActiveOptions]="{exact: true}">
+                        <a href="javascript:void(0);" (click)="closeMenu();" [routerLink]="[ '/videos']">Video</a>
+                    </li>
+                    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a href="javascript:void(0);" (click)="closeMenu();" [routerLink]="[ '/advertisements']">Quảng cáo</a>
+                    </li>
+                </ul>
+            </li>
+            <li *ngIf="isAdmin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-user-circle"></i><span>Quản lý user</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left float-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li routerLinkActive="active" (click)="closeMenu();" [routerLinkActiveOptions]="{exact: true}">
+                        <a href="javascript:void(0);" (click)="closeMenu();" [routerLink]="[ '/users/update']">Thêm mới</a>
+                    </li>
+                    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a href="javascript:void(0);" (click)="closeMenu();" [routerLink]="[ '/users']">Danh sách user</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- /.sidebar -->
+</aside>

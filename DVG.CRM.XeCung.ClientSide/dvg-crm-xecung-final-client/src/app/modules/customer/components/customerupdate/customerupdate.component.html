@@ -1,0 +1,191 @@
+<div class="right-action">
+  <div class="btnright">
+      <a routerLink="/customer">
+          <i style="color: white;" class="fa fa-list"></i> &nbsp; <span class="show-text">Customer File Management</span>
+      </a>
+  </div>
+</div>
+
+<div class="wrapper">
+  <div class="content-wrapper">
+      <section class="content-header">
+          <div class="header-icon">
+              <i class="fa fa-users"></i>
+          </div>
+          <div class="header-title">
+              <h1 *ngIf="!isEdit">Create A New Customer</h1>
+              <h1 *ngIf="isEdit">Edit A Customer</h1>
+              <small >Customer File Management</small>
+          </div>
+      </section>
+      <div class="content">
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="card lobicard all_btn_card" id="lobicard-custom-control1" data-sortable="true">
+                      <form name="form" (ngSubmit)="f.form.valid && update()" #f="ngForm">
+                          <div class="card-body row">
+                              <div class="col-md-6 col-sm-6">
+                                  <div class="form-group">
+                                      <div class="control-container">
+                                          <label><span>Tên khách hàng</span><span class="red"> *</span></label>
+                                          <input type="text" [(ngModel)]="customerUpdate.Name"
+                                              placeholder="--Tên khách hàng--" name="name" required appHtmlIgnore
+                                              #name="ngModel" maxlength="50" class="form-control" />
+                                          <div *ngIf="f.submitted && name.invalid"
+                                              class="invalid-feedback display-block">
+                                              <div *ngIf="name.errors.required">Tên khách hàng không được bỏ trống</div>
+                                              <div *ngIf="name.errors.ishtml">Tên khách hàng không gồm mã kí tự của html</div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 col-sm-6">
+                                  <div class="form-group">
+                                      <div class="control-container">
+                                          <label><span>Số điện thoại</span><span class="red"> *</span></label>
+                                          <input type="text" [(ngModel)]="customerUpdate.PhoneNumber" appPhonenumberValidator
+                                              required #phonenumber="ngModel" maxlength="20"  name="phonenumber" class="form-control m-input"
+                                              placeholder="--Số điện thoại--">
+                                          <div *ngIf="f.submitted && phonenumber.invalid" class="invalid-feedback display-block">
+                                              <div *ngIf="phonenumber.errors.required">Số điện thoại không được bỏ trống</div>
+                                              <div *ngIf="phonenumber.errors.isphone">Số điện thoại không hợp lệ</div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 col-sm-6">
+                                  <div class="form-group">
+                                      <div class="control-container">
+                                          <label><span>Email</span><span class="red"> *</span></label>
+                                          <input [(ngModel)]="customerUpdate.Email" #email="ngModel" required email maxlength="50" type="text" 
+                                          placeholder="--Email khách hàng--" name="email" class="form-control" [readonly]="isEdit && !checkIsManager()">
+                                          <div *ngIf="f.submitted && email.invalid" class="invalid-feedback display-block">
+                                              <div *ngIf="email.errors.required">Email không được bỏ trống</div>
+                                              <div *ngIf="email.errors.email">Email không hợp lệ</div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 col-sm-6">
+                                  <div class="form-group">
+                                      <div class="control-container">
+                                          <label><span>Nguồn khách hàng</span><span class="red"> *</span></label>
+                                          <select id="customerscource" class="form-control"[(ngModel)]="customerUpdate.Scource" name="customerscource" #customerscource="ngModel" appSmallerEqualZero required>
+                                        <option value="-1">--Nguồn khách hàng--</option>
+                                        <option *ngFor="let item of customerUpdateInit.AllCustomerScource" value="{{item.Key}}">
+                                            {{item.Value}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="f.submitted && customerscource.invalid"
+                                        class="invalid-feedback display-block">
+                                        <div *ngIf="customerscource.errors.isSmallerEqualZero">Nguồn khách hàng không được bỏ trống</div>
+                                    </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 col-sm-6">
+                                  <div class="form-group">
+                                      <div class="control-container">
+                                          <label><span>Loại khách hàng</span><span class="red"> *</span></label>
+                                          <select id="customertype" class="form-control"[(ngModel)]="customerUpdate.Type" name="customertype" #customertype="ngModel" appSmallerEqualZero required>
+                                              <option value="-1">--Loại khách hàng--</option>
+                                              <option *ngFor="let item of customerUpdateInit.AllCustomerType" value="{{item.Key}}">
+                                                  {{item.Value}}
+                                              </option>
+                                          </select>
+                                          <div *ngIf="f.submitted && customertype.invalid" class="invalid-feedback display-block">
+                                              <div *ngIf="customertype.errors.isSmallerEqualZero">Loại khách hàng không được bỏ trống</div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 col-sm-6">
+                                  <div class="form-group">
+                                      <div class="control-container">
+                                          <label><span>Trạng thái</span><span class="red"> *</span></label>
+                                          <select id="customerstatus" class="form-control"[(ngModel)]="customerUpdate.Status" name="customerstatus" #customerstatus="ngModel" appSmallerEqualZero required>
+                                              <option value="-1">--Trạng thái--</option>
+                                              <option *ngFor="let item of customerUpdateInit.AllCustomerStatus" value="{{item.Key}}">
+                                                  {{item.Value}}
+                                              </option>
+                                          </select>
+                                          <div *ngIf="f.submitted && customerstatus.invalid" class="invalid-feedback display-block">
+                                              <div *ngIf="customerstatus.errors.isSmallerEqualZero">Trạng thái khách hàng không được bỏ trống</div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 col-sm-6">
+                                  <div class="form-group">
+                                      <div class="control-container">
+                                          <label><span>Facebook Link</span></label>
+                                          <input type="text" [(ngModel)]="customerUpdate.FacebookLink" placeholder="--Link Facebook--" name="linkfacebook"  #linkfacebook="ngModel" class="form-control" />
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 col-sm-6">
+                                  <div class="form-group">
+                                      <div class="control-container">
+                                          <label><span>Công ty</span></label>
+                                          <input type="text" [(ngModel)]="customerUpdate.Company" placeholder="--Công ty--" name="company"  #company="ngModel"  class="form-control" />
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-3 col-sm-3">
+                                    <div class="form-group">
+                                        <label><span>Nhân viên phụ trách</span></label>
+                                        <select id="customerstatus" class="form-control"[(ngModel)]="customerUpdate.AssigneeId" name="assignee" #assignee="ngModel">
+                                                <option value="-1">--Nhân viên phụ trách--</option>
+                                                <!-- <option *ngFor="let item of customerUpdateInit.AllCustomerStatus" value="{{item.Key}}">
+                                                    {{item.Value}}
+                                                </option> -->
+                                        </select>
+                                    </div>
+                                </div>
+                              <div class="col-md-3 col-sm-3">
+                                <div class="form-group">
+                                    <div class="control-container">
+                                        <label>Birthday</label>
+                                        <app-datepickercustom #childDatepiker
+                                          [idSelector]="'birthday'"
+                                          [nameSelector]="'birthday'"
+                                          [placeholderSelector]="'--Ngày sinh--'"
+                                          [defaultValue]="customerUpdate.BirthdayConvert"
+                                          (changedModelDate)="customerUpdate.Birthday = $event"
+                                          [isBirthday] = "true">
+                                        </app-datepickercustom>
+                                    </div>
+                                </div>
+                            </div>
+                              <div class="col-md-6 col-sm-6">
+                                  <div class="form-group">
+                                      <div class="control-container">
+                                          <label><span>Vị trí</span></label>
+                                          <input type="text" [(ngModel)]="customerUpdate.Position" placeholder="--Vị trí--" name="position"  #position="ngModel" class="form-control" />
+                                      </div>
+                                  </div>
+                              </div>
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <label><span>Ghi chú</span></label>  
+                                    <textarea [(ngModel)]="customerUpdate.Description" placeholder="--Ghi chú--" name="note" #note="ngModel" class="form-control" rows="3">
+                                    </textarea>
+                                  </div>
+                              </div>
+                              <div class="col-md-12">
+                                  <div class="reset-button">
+                                      <button type="submit" style="margin-right: 8px;" class="btn btn-success"> Save</button>
+                                      <button type="button" (click)="reset()" class="btn btn-warning" style="margin-right: 8px;">Reset</button>
+                                      <a [routerLink]="[ '/customer' ]">
+                                          <button type="button" class="btn btn-danger" style="margin-right: 0;">Close</button>
+                                      </a>
+                                  </div>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+</div>
+</div>

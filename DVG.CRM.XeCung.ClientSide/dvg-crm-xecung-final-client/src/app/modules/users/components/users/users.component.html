@@ -1,0 +1,220 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="header-icon">
+      <i class="fa fa-user-plus"></i>
+    </div>
+    <div class="header-title">
+      <h1>Danh sách user</h1>
+      <small>Quản lý user</small>
+    </div>
+  </section>
+  <!-- Main content -->
+  <section class="content">
+      <div class="row">
+          <div class="col-sm-12">
+            <div class="card lobicard all_btn_card" id="lobicard-custom-control1" data-sortable="true">
+              <div class="card-header all_card_btn">
+                <div class="card-title custom_title">
+                  <h4>Tìm kiếm</h4>
+                </div>
+              </div>
+              <div class="card-body row">
+                <div class="col-lg-4 col-md-6">
+                  <div class="form-group">
+                    <div class="control-container">
+                      <textarea style="max-height: 35px" class="form-control"  name="filteruser" [(ngModel)]="userIndex.FilterKeyWord"  class="form-control m-input"
+                          placeholder="Tên user/Email/Số điện thoại"></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-1 col-md-3">
+                  <div class="form-group">
+                    <div class="control-container">
+                      <button class="btn btn-success" style="width: 100%;" (click)="getAllUser(1)" name="search" type="button">
+                        Tìm kiếm
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-1 col-md-3">
+                  <div class="form-group">
+                    <div class="control-container">
+                      <button class="btn btn-primary" style="width: 100%;" (click)="userIndex.FilterKeyWord='';getAllUser(1)" name="search" type="button">
+                        Làm lại
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    <div class="row">
+      <div class="col-lg-12 pinpin">
+        <div class="card lobicard" id="lobicard-custom-control" data-sortable="true">
+          <div class="card-header">
+            <div class="card-title custom_title">
+              <h4>Danh sách user</h4>
+            </div>
+          </div>
+          <div class="card-body">
+            <!-- Plugin content:powerpoint,txt,pdf,png,word,xl -->
+            <div class="btn-group btn-head" role="group">
+              <div class="buttonexport">
+                <a href="javascript:void(0);" [routerLink]="[ '/users/update']" class="btn btn-add">
+                  <i class="fa fa-plus"></i> Thêm user
+                </a>
+              </div>
+            </div>
+            <!-- ./Plugin content:powerpoint,txt,pdf,png,word,xl -->
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover">
+                <thead class="back_table_color">
+                  <tr class="info hide-element-phone">
+                    <th class="w20">#</th>
+                    <th>ID</th>
+                    <th>Tên user</th>
+                    <th>Email</th>
+                    <th>Số điện thoại</th>
+                    <th>Quyền</th>
+                    <th>Trạng thái</th>            
+                    <th>Ngày hoạt động cuối</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of lstUser;let i = index">
+                    <td class="pull-left-phone" (click)="item.IsShowAll = !item.IsShowAll">
+                        <div class="toggle-wap">
+                          <span class="hide-element-out-phone label-bold-550"># : </span>{{i+1}}
+                        </div>
+                        <div class="toggle-wap-icon hide-element-out-phone">
+                            <ng-container *ngIf="item.IsShowAll else collapse">
+                              <i class="fa fa-caret-up"></i>
+                            </ng-container>
+                            <ng-template #collapse>
+                                <ng-container>
+                                  <i class="fa fa-caret-down"></i>
+                                </ng-container>
+                            </ng-template>
+                          </div>
+                    </td>
+                    <td [ngClass]="item.IsShowAll ? 'pull-left-phone' : 'hide-element-phone'">
+                      <span class="hide-element-out-phone label-bold-550">ID: </span>{{item.Id}}
+                    </td>
+                    <td class="pull-left-phone">
+                      <span class="hide-element-out-phone label-bold-550">Tên user: </span>{{item.UserName}}
+                    </td>
+                    <td class="pull-left-phone">
+                      <span class="hide-element-out-phone label-bold-550">Email: </span>{{item.Email}}
+                    </td>
+                    <td class="pull-left-phone">
+                      <span class="hide-element-out-phone label-bold-550">Số điện thoại: </span>{{item.PhoneNumber}}
+                    </td>
+                    <td [ngClass]="item.IsShowAll ? 'pull-left-phone' : 'hide-element-phone'">
+                      <span class="hide-element-out-phone label-bold-550">Quyền: </span>{{item.Position}}
+                    </td>
+                    <td [ngClass]="item.IsShowAll ? 'pull-left-phone' : 'hide-element-phone'">
+                      <span class="hide-element-out-phone label-bold-550">Trạng thái: </span>
+                      <span *ngIf="item.Status === 1" class="custom-label label-custom label label-default">Actived</span>
+                      <span *ngIf="item.Status === 0" class="custom-label label-danger label label-default">Deactived</span>
+                    </td>
+                    <td [ngClass]="item.IsShowAll ? 'pull-left-phone' : 'hide-element-phone'">
+                      <span class="hide-element-out-phone label-bold-550">Ngày hoạt động cuối: </span>{{item.StrLastActivityDate}}
+                    </td>
+                    <td class="pull-left-phone wap-padding-bottom-15">
+                      <span>
+                        <div class="dropdown">
+                          <button class="btn btn-primary w-md m-b-5 dropdown-toggle" id="myManagerAction"
+                            type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Manager
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="myManagerAction">
+                            <a class="dropdown-item" [routerLink]="[ '/users/update', item.Id ]">
+                              <div class="icon-item"><i class="fa fa-edit"></i></div>
+                              <div class="text-action">Sửa thông tin</div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:void(0)" (click)="getUrlOTPPrivateKey(item.Id)">
+                              <div class="icon-item"><i class="fa fa-compress"></i></div>
+                              <div class="text-action">Tạo mã OTP</div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:void(0)"
+                              (click)="[resetForm(), getResetId(item.Id), getToken(item.Id)]" data-toggle="modal"
+                              data-target="#resetpassword">
+                              <div class="icon-item"><i class="fa fa-refresh"></i></div>
+                              <div class="text-action">Reset mật khẩu</div>
+                            </a>
+                            <ng-container>
+
+                            </ng-container>
+                            <a *ngIf="item.Status === 1" class="dropdown-item" href="javascript:void(0)"
+                              (click)="confirmBlock(item.Id)">
+                              <div class="icon-item"><i class="fa fa-lock"></i></div>
+                              <div class="text-action">Block</div>
+                            </a>
+                            <a *ngIf="item.Status === 0" class="dropdown-item" href="javascript:void(0)"
+                              (click)="confirmUnBlock(item.Id)">
+                              <div class="icon-item"><i class="fa fa-unlock-alt"></i></div>
+                              <div class="text-action">Unblock</div>
+                            </a>
+                          </div>
+                        </div>
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <app-paging [pageIndex]="userIndex.PageIndex" [pageSize]="userIndex.PageSize"
+                [totalRecord]="userIndex.TotalRecord" (searchEvent)="getAllUser($event)"></app-paging>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<div class="modal fade" id="resetpassword" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Reset mật khẩu user</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <form name="form" #formResetPass="ngForm" (ngSubmit)="formResetPass.form.valid && resetPassword()" novalidate>
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Mật khẩu mới <span class="red">*</span></label>
+              <input type="password" [(ngModel)]="changePassWord.NewPassword" name="newpassword" appPasswordValidator
+                required #newpassword="ngModel" class="form-control" placeholder="--New Password--">
+            </div>
+            <ng-container *ngIf="formResetPass.submitted && newpassword.invalid">
+              <span class="help-block small text-error" *ngIf="newpassword.errors.required">
+                Mật khẩu mới không được bỏ trống
+              </span>
+              <span class="help-block small text-error" *ngIf="newpassword.errors.ispassword">
+                Mật khẩu mới không hợp lệ và độ dài phải >= 6
+              </span>
+            </ng-container>
+
+            <div class="form-group">
+                <label>Xác nhận mật khẩu mới<span class="red">*</span></label>
+                <input type="password" [(ngModel)]="changePassWord.ConfirmNewPassword" name="confirmnewpassword" appPasswordValidator appPasswordMatch="newpassword"
+                  required #confirmnewpassword="ngModel" class="form-control" placeholder="--Confirm New Password--">
+              </div>
+              <ng-container *ngIf="formResetPass.submitted && confirmnewpassword.invalid">
+                <div class="help-block small text-error" *ngIf="confirmnewpassword.errors.required">Mật khẩu xác nhận không được bỏ trống</div>
+                <div class="help-block small text-error" *ngIf="confirmnewpassword.errors.ispassword">Mật khẩu xác nhận không hợp lệ và độ dài phải >= 6</div>
+                <div class="help-block small text-error" *ngIf="confirmnewpassword.errors.isPasswordMatch">Mật khẩu mới và mật khẩu xác nhận không trùng nhau</div>
+              </ng-container>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn green_btn custom_grreen2">Lưu</button>   
+            <button type="button" id="closeChangepassword" class="btn btn-danger" data-dismiss="modal">Đóng</button>        
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

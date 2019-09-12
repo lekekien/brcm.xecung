@@ -1,0 +1,718 @@
+<div class="wrapper">
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="header-icon">
+          <i class="fa fa-users"></i>
+        </div>
+        <div class="header-title">
+          <h1>Lead File Management</h1>
+          <small>Customer crawler list</small>
+        </div>
+      </section>
+      <div class="content">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="card lobicard all_btn_card" id="lobicard-custom-control1" data-sortable="true">
+              <div class="card-header all_card_btn">
+                <div class="card-title custom_title">
+                  <h4>Search box</h4>
+                </div>
+              </div>
+              <div class="card-body row">
+                <div class="col-lg-4 col-md-6">
+                  <div class="form-group">
+                    <div class="control-container">
+                      <textarea class="form-control" [(ngModel)]="leadDataService.leadIndex.FilterKeyword" maxlength="100"
+                        name="filterKeyword" placeholder="Keyword" rows="1"></textarea>
+                    </div>
+                  </div>
+  
+                </div>
+                <div class="col-lg-2 col-md-6">
+                  <div class="form-group">
+                    <div class="control-container">
+                      <select [(ngModel)]="leadDataService.leadIndex.ListingRange" id="selListingRange" name="listingrange" class="form-control" placeholder="--No. of Listings--">
+                        <option [value]="-1">--Listing Range--</option>
+                        <option *ngFor="let item of leadInit.AllListing" [value]="item.Key">{{item.Value}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                  <div class="form-group">
+                    <div class="control-container">
+                      <select [(ngModel)]="leadDataService.leadIndex.AssigneeId" id="assigneeId" name="leadAssigneeId"
+                      data-placeholder="--Assignee--" class="form-control m-select2" tabindex="3">
+                        <option [value]="0" selected="selected">--Assignee--</option>
+                        <option *ngFor="let item of leadInit.AllKeyValueAssignee" [value]="item.Key">{{item.Value}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mg-bot-12">
+                  <div class="form-group">
+                    <div class="control-container">
+                      <app-datepickercustom 
+                        [idSelector]="'txtStartDate'" 
+                        [nameSelector]="'startdate'"
+                        [placeholderSelector]="'--Account Created From--'"
+                        (changedModelDate)="leadDataService.leadIndex.CreatedFrom = $event">
+                      </app-datepickercustom>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mg-bot-12">
+                  <div class="form-group">
+                    <div class="control-container">
+                      <app-datepickercustom [idSelector]="'txtEndDate'" [nameSelector]="'enddate'"
+                        [placeholderSelector]="'--Account Created To--'"
+                        (changedModelDate)="leadDataService.leadIndex.CreatedTo = $event">
+                      </app-datepickercustom>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-3">
+                  <div class="form-group">
+                    <div class="control-container">
+                      <button class="btn btn-success" style="width: 100%;" (click)="search(1)" name="search"
+                        type="button">
+                        Search
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="card lobicard all_btn_card" id="lobicard-custom-control1" data-sortable="true">
+              <div class="card-header all_card_btn">
+                <div class="card-title custom_title margin-bottom-0">
+                  <ul class="nav nav-tabs wap-lead-tab" id="myTab1" role="tablist">
+                    <li class="nav-item tab-total">
+                      <a [ngClass]="leadDataService.leadIndex.Status === 1 ? 'nav-link m-tabs__link active' : 'nav-link m-tabs__link'"
+                       data-toggle="tab" href="#m_tabs_2_1"
+                       (click)="leadDataService.leadIndex.Status =1;search(1);">Pending</a>
+                    </li>
+                    <li class="nav-item tab-assign">
+                      <a [ngClass]="leadDataService.leadIndex.Status === 2 ? 'nav-link m-tabs__link active' : 'nav-link m-tabs__link'"
+                      (click)="leadDataService.leadIndex.Status =2;search(1);" data-toggle="tab" href="#m_tabs_2_2">
+                      Considering
+                      </a>
+                    </li>
+                    <li class="nav-item tab-assign">
+                        <a [ngClass]="leadDataService.leadIndex.Status === 4 ? 'nav-link m-tabs__link active' : 'nav-link m-tabs__link'"
+                        (click)="leadDataService.leadIndex.Status =4;search(1);" data-toggle="tab" href="#m_tabs_2_2">
+                        Rejected
+                        </a>
+                    </li>
+  
+                  </ul>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class=" custom_tabs">
+                  <div class="card2-body card_card">
+                    <div class="tab-content">
+                      <div [ngClass]="leadDataService.leadIndex.Status === 1 ? 'tab-pane active' : 'tab-pane fade'" id="m_tabs_2_1" role="tabpanel">
+                        <div class="table-responsive">
+                          <table style="width: 100%;" class="table table-bordered table-striped table-hover">
+                            <thead class="back_table_color">
+                              <tr class="hide-element-phone">
+                                  <th *ngIf="isRoledManagerOrHigher()" class="w80" style="width: 105px">
+                                      <a *ngIf="!isSelectAll else btnunselect" href="javascript:void(0);" class="btn btn-sm btn-primary w-md m-b-5" style="color: white;"
+                                          (click)="selectAll()"> Select all </a>
+                                      <ng-template #btnunselect>
+                                          <a class="btn btn-sm btn-primary w-md m-b-5" href="javascript:void(0);" (click)="unselectAll()" style="color: white;"> Unselect all </a>
+                                      </ng-template>
+                                  </th>
+                                <th class="w20">#</th>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Phone Number</th>
+                                <th>Email</th>
+                                <th>Address</th>
+                                <th>No. Listing</th>
+                                <th>Action </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let item of lstPendingLead; let i = index">
+                                  <td *ngIf="isRoledManagerOrHigher()">
+                                      <label style="width: 100%; margin-bottom: 0;text-align: center;">
+                                        <span class="hide-element-out-phone label-bold-550" style="float: left"><span>Assign</span>: </span>
+                                        <label class="m-checkbox" style="margin-bottom: 20px">
+                                          <input *ngIf="item.BlockStatus === 0" type="checkbox" [(ngModel)]="item.IsCheckedAssign">
+                                          <span></span>
+                                        </label>
+                                      </label>
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13">
+                                  <span class="hide-element-out-phone"># : </span>{{i+1}}
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13">
+                                  <span class="hide-element-out-phone label-bold-550">ID : </span> {{item.AdminId}}
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13">
+                                  <span class="hide-element-out-phone label-bold-550">Name : </span>{{item.FullName}}
+                                  <div *ngIf="item.BlockStatus === 1 && item.BlockReasonType > 0">
+                                      <span  class="custom-label label-warning label label-default">Request block by {{item.BlockReasonType==1?'Scammer':(item.BlockReasonType==2?'WrongContact':item.BlockReasonDescription)}}</span>
+                                  </div>
+                                  <ng-container *ngIf="item.BlockStatus === 2">
+                                    <div *ngIf="item.BlockReasonType>0;else second">
+                                        <span  class="custom-label label-danger label label-default">Customer is blocked by {{item.BlockReasonType==1?'Scammer':(item.BlockReasonType==2?'WrongContact':item.BlockReasonDescription)}}</span>
+                                    </div>
+                                    <ng-template #second>Customer is blocked</ng-template>
+                                  </ng-container>
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13">
+                                  <span class="hide-element-out-phone label-bold-550">Phone Number : </span>{{item.PhoneNumber}}
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13">
+                                  <span class="hide-element-out-phone label-bold-550">Email : </span>{{item.Email}}
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13">
+                                  <span class="hide-element-out-phone label-bold-550">Address : </span>{{item.Address}}
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13">
+                                  <span class="hide-element-out-phone label-bold-550">Crawlered Posting News : </span>{{item.CrawleredPostingNews}}
+                                </td>
+                                <td *ngIf="(item.BlockStatus === 1 && !isRoledManagerOrHigher()) else pendingactionmanager" class="pull-left-phone">
+                                    <span class="m-badge m-badge--success m-badge--wide">
+                                      Request block pending
+                                    </span>
+                                </td>
+                                <ng-template #pendingactionmanager>
+                                    <td class="pull-left-phone  wap-padding-bottom-15">
+                                      <button class="btn btn-primary w-md m-b-5 dropdown-toggle" id="myManagerAction" type="button"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Manager
+                                      </button>
+                                      <div class="dropdown-menu" aria-labelledby="myManagerAction">
+                                        <a *ngIf="item.BlockStatus === 0" (click)="getLead(item.Id, item.AdminId)" href="javascript:void(0)"
+                                         class="dropdown-item" name="getcustomer" title="Get Lead">
+                                            <div class="icon-item"><i class="fa fa-user"></i></div>
+                                            <div class="text-action">Get Lead</div>
+                                        </a>
+                                        <a *ngIf="isRoledManagerOrHigher() && item.BlockStatus === 0" (click)="adminIdWaintingAssign = item.AdminId;" href="javascript:void(0)"
+                                         class="dropdown-item" data-toggle="modal" data-target="#wrapAssignTo" name="assigncustomer"
+                                          title="Assign to sale">
+                                          <div class="icon-item"><i class="fa fa-hand-o-right"></i></div>
+                                          <div class="text-action"> Assign to sale</div>
+                                        </a>
+                                        <a *ngIf="isRoledManagerOrHigher() && item.BlockStatus === 1" (click)="leadBlock.LeadId = item.Id; block(item.Id);" href="javascript:void(0)"
+                                         class="dropdown-item" name="acceptblockrequest"
+                                          title="Accept block request">
+                                          <div class="icon-item"><i class="fa fa-check"></i></div>
+                                          <div class="text-action">Block</div>
+                                        </a>
+                                        <a *ngIf="isRoledManagerOrHigher() && item.BlockStatus === 1" (click)="leadBlock.LeadId = item.Id; cancel(item.Id);" href="javascript:void(0)"
+                                         class="dropdown-item" name="cancelblockrequest"
+                                          title="Cancel block request">
+                                          <div class="icon-item"><i class="fa fa-remove"></i></div>
+                                          <div class="text-action">Cancel request</div>
+                                        </a>
+                                        <a *ngIf="isRoledManagerOrHigher() && item.BlockStatus === 2" (click)="leadBlock.LeadId = item.Id; unblock(item.Id);" href="javascript:void(0)"
+                                         class="dropdown-item" name="unblockrequest"
+                                          title="Unblock">
+                                          <div class="icon-item"><i class="fa fa-mail-reply"></i></div>
+                                          <div class="text-action">Unblock</div>
+                                        </a>
+                                      </div>
+                                    </td>
+                                  </ng-template>
+                              </tr>
+                              <tr *ngIf="isRoledManagerOrHigher()">
+                                  <td colspan="11">
+                                    <button [disabled]="isAssignPermission()" class="btn btn-danger"
+                                          href="#wrapAssignTo" (click)="isAssignMulti=true;" data-toggle="modal"
+                                          name="assigncustomer" title="Assign to customer">Assign</button> 
+                                        </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <app-paging [pageIndex]="1" [pageSize]="20"
+                          [totalRecord]="totalPendingLead" (searchEvent)="search($event)">
+                        </app-paging>
+                        </div>
+                      </div>
+                      <div id="m_tabs_2_2" role="tabpanel" [ngClass]="leadDataService.leadIndex.Status === 2 ? 'tab-pane active' : 'tab-pane fade'">
+                        <div class="table-responsive">
+                          <table style="width: 100%;" class="table table-bordered table-striped table-hover">
+                            <thead class="back_table_color">
+                              <tr class="hide-element-phone">
+                                  <th *ngIf="isRoledManagerOrHigher()" class="w80" style="width: 105px">
+                                      <a *ngIf="!isSelectAll else btnunselectconsidering" href="javascript:void(0);" class="btn btn-sm btn-primary w-md m-b-5" style="color: white;"
+                                          (click)="selectAll()"> Select all </a>
+                                      <ng-template #btnunselectconsidering>
+                                          <a class="btn btn-sm btn-primary w-md m-b-5" href="javascript:void(0);" (click)="unselectAll()" style="color: white;"> Unselect all </a>
+                                      </ng-template>
+                                  </th>
+                                <th class="w20 hide-element-phone">#</th>
+                                <th class="hide-element-phone">ID</th>
+                                <th class="hide-element-phone">Name</th>
+                                <th class="hide-element-phone">Phone Number</th>
+                                <th class="hide-element-phone">Email</th>
+                                <th class="hide-element-phone">Address</th>
+                                <th class="hide-element-phone">No. of listings</th>
+                                <th class="hide-element-phone">Note</th>
+                                <th class="hide-element-phone" *ngIf="isRoledManagerOrHigher()">Assignee</th>
+                                <th class="hide-element-phone">Action </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let item of lstConsideringLead; let i = index">
+                                  <td *ngIf="isRoledManagerOrHigher()">
+                                      <label style="width: 100%; margin-bottom: 0;text-align: center;">
+                                        <span class="hide-element-out-phone label-bold-550" style="float: left"><span>Assign</span>: </span>
+                                        <label class="m-checkbox" style="margin-bottom: 20px">
+                                          <input *ngIf="item.BlockStatus === 0" type="checkbox" [(ngModel)]="item.IsCheckedAssign">
+                                          <span></span>
+                                        </label>
+                                      </label>
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13">
+                                  <span class="hide-element-out-phone"># : </span>{{i+1}}
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13">
+                                  <span class="hide-element-out-phone label-bold-550">ID : </span> {{item.AdminId}} {{item.BlockStatus}}
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13">
+                                  <span class="hide-element-out-phone label-bold-550">Name : </span>{{item.FullName}}
+                                  <div *ngIf="item.BlockStatus === 1 && item.BlockReasonType > 0">
+                                      <span  class="custom-label label-warning label label-default">Request block by {{item.BlockReasonType==1?'Scammer':(item.BlockReasonType==2?'WrongContact':item.BlockReasonDescription)}}</span>
+                                  </div>
+                                  <ng-container *ngIf="item.BlockStatus === 2">
+                                    <div *ngIf="item.BlockReasonType>0;else second">
+                                        <span  class="custom-label label-danger label label-default">Customer is blocked by {{item.BlockReasonType==1?'Scammer':(item.BlockReasonType==2?'WrongContact':item.BlockReasonDescription)}}</span>
+                                    </div>
+                                    <ng-template #second>Customer is blocked</ng-template>
+                                  </ng-container>
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13">
+                                  <span class="hide-element-out-phone label-bold-550">Phone Number : </span>{{item.PhoneNumber}}
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13">
+                                  <span class="hide-element-out-phone label-bold-550">Email : </span>{{item.Email}}
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13" style="max-width: 300px">
+                                  <span class="hide-element-out-phone label-bold-550">Address : </span>{{item.Address}}
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13">
+                                  <span class="hide-element-out-phone label-bold-550">No. of listings :</span>{{item.CrawleredPostingNews}}
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13">
+                                  <span class="hide-element-out-phone label-bold-550">Note : </span>{{item.Note}}
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13" *ngIf="isRoledManagerOrHigher()">
+                                  <span class="hide-element-out-phone label-bold-550">Assignee : </span>{{item.AssigneeName}}
+                                </td>
+                                <td *ngIf="(item.BlockStatus === 1 && !isRoledManagerOrHigher()) else actionmanager" class="pull-left-phone">
+                                    <span class="m-badge m-badge--success m-badge--wide">
+                                      Request block pending
+                                    </span>
+                                </td>                              
+                                <ng-template #actionmanager>
+                                      <td *ngIf="item.BlockStatus === 1 && isRoledManagerOrHigher()" class="pull-left-phone">
+                                        <a  (click)="leadBlock.LeadId = item.Id; block(item.Id);" href="javascript:void(0)" class="dropdown-item"
+                                                 name="acceptblockrequest"
+                                                title="Accept block request" class="btn btn-sm btn-success" >Block
+                                              </a>
+                                        <a  (click)="leadBlock.LeadId = item.Id; cancel(item.Id);" name="cancelblockrequest" href="javascript:void(0)"
+                                              title="Cancel block request" class="btn btn-sm btn-warning" style="margin-left: 3px;">Cancel
+                                        </a>
+                                      </td>
+                                      <td *ngIf="isRoledManagerOrHigher() && item.BlockStatus === 2" class="pull-left-phone">
+                                        <a (click)="leadBlock.LeadId = item.Id; unblock(item.Id);" name="unblockrequest"
+                                              title="Unblock" href="javascript:void(0)" class="btn btn-sm btn-warning">Unblock
+                                        </a>    
+                                      </td>
+                                    <td class="pull-left-phone  wap-padding-bottom-15" *ngIf="item.BlockStatus !== 1 && item.BlockStatus !== 2">
+                                      <button class="btn btn-primary w-md m-b-5 dropdown-toggle" id="myManagerAction" type="button"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Manager
+                                      </button>
+                                      <div class="dropdown-menu" aria-labelledby="myManagerAction">
+                                        <a *ngIf="item.BlockStatus === 0 && currUser.Id === item.AssigneeId"
+                                          class="dropdown-item" name="editcustomer" title="Convert lead to customer"
+                                          [routerLink]="[ '/customerlead/convert']"
+                                          [queryParams]="{ data: encodeToJson({Id:item.Id,LeadAdminId:item.AdminId,FullName:item.FullName,PhoneNumber:item.PhoneNumber,Email:item.Email,Address:item.Address})}">
+                                          <div class="icon-item"><i class="fa fa-edit"></i></div>
+                                          <div class="text-action"> Convert lead to customer</div>
+                                        </a>
+                                        <a *ngIf="item.BlockStatus === 0 " (click)="leadNote.Id=item.Id" href="javascript:void(0)" class="dropdown-item"
+                                          data-toggle="modal" data-target="#wrapNote" name="addnote"
+                                          title="Add note to lead">
+                                          <div class="icon-item"><i class="fa fa-hand-o-right"></i></div>
+                                          <div class="text-action"> Add note</div>
+                                        </a>
+                                        <a *ngIf="item.BlockStatus === 0 && currUser.Id === item.AssigneeId" (click)="leadReject.Note ='';gettokenforreject(item.Id);" href="javascript:void(0)" class="dropdown-item"
+                                          data-toggle="modal" data-target="#wrapRejection" name="rejection"
+                                          title="Rejection">
+                                          <div class="icon-item"><i class="fa fa-remove"></i></div>
+                                          <div class="text-action"> Reject</div>
+                                        </a>
+                                        <a *ngIf="item.BlockStatus !== 1 && item.BlockStatus !== 2" (click)="leadBlock.LeadId = item.Id" href="javascript:void(0)" class="dropdown-item"
+                                          data-toggle="modal" data-target="#wrapBlockUser" name="addblockrequest"
+                                          title="Add block request">
+                                          <div class="icon-item"><i class="fa fa-lock"></i></div>
+                                          <div class="text-action"> Add block request</div>
+                                        </a>                                     
+                                      </div>
+                                    </td>
+                                    
+                                  </ng-template>
+                              </tr>
+                              <tr *ngIf="isRoledManagerOrHigher()">
+                                  <td colspan="11">
+                                    <button [disabled]="isAssignPermission()" class="btn btn-danger"
+                                          href="#wrapAssignTo" (click)="isAssignMulti=true;" data-toggle="modal"
+                                          name="assigncustomer" title="Assign to customer">Assign</button> 
+                                        </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <app-paging [pageIndex]="1" [pageSize]="20"
+                          [totalRecord]="totalConsideringLead" (searchEvent)="search($event)">
+                        </app-paging>
+                        </div>
+                      </div>
+                      <div id="m_tabs_2_3" role="tabpanel" [ngClass]="leadDataService.leadIndex.Status === 4 ? 'tab-pane active' : 'tab-pane fade'">
+                        <div class="table-responsive">
+                          <table style="width: 100%;" class="table table-bordered table-striped table-hover">
+                            <thead class="back_table_color">
+                              <tr class="hide-element-phone">
+                                  <th *ngIf="isRoledManagerOrHigher()" class="w80" style="width: 105px">
+                                      <a *ngIf="!isSelectAll else btnunselectreject" href="javascript:void(0);" class="btn btn-sm btn-primary w-md m-b-5" style="color: white;"
+                                          (click)="selectAll()"> Select all </a>
+                                      <ng-template #btnunselectreject>
+                                          <a class="btn btn-sm btn-primary w-md m-b-5" href="javascript:void(0);" (click)="unselectAll()" style="color: white;"> Unselect all </a>
+                                      </ng-template>
+                                  </th>
+                                <th class="w20 hide-element-phone">#</th>
+                                <th class="hide-element-phone">ID</th>
+                                <th class="hide-element-phone">Name</th>
+                                <th class="hide-element-phone">Phone Number</th>
+                                <th class="hide-element-phone">Email</th>
+                                <th class="hide-element-phone">Address</th>
+                                <th class="hide-element-phone">No. of listings</th>
+                                <th class="hide-element-phone">Reason for rejection</th>
+                                <th class="hide-element-phone">Action </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let item of lstRejectedLead; let i = index">
+                                  <td *ngIf="isRoledManagerOrHigher()">
+                                      <label style="width: 100%; margin-bottom: 0;text-align: center;">
+                                        <span class="hide-element-out-phone label-bold-550" style="float: left"><span>Assign</span>: </span>
+                                        <label class="m-checkbox" style="margin-bottom: 20px">
+                                          <input *ngIf="item.BlockStatus === 0" type="checkbox" [(ngModel)]="item.IsCheckedAssign">
+                                          <span></span>
+                                        </label>
+                                      </label>
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13">
+                                  <span class="hide-element-out-phone"># : </span>{{i+1}}
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13">
+                                  <span class="hide-element-out-phone label-bold-550">ID : </span> {{item.AdminId}}
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13">
+                                  <span class="hide-element-out-phone label-bold-550">Name : </span>{{item.FullName}}
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13">
+                                  <span class="hide-element-out-phone label-bold-550">Phone Number : </span>{{item.PhoneNumber}}
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13">
+                                  <span class="hide-element-out-phone label-bold-550">Email : </span>{{item.Email}}
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13" style="max-width: 300px">
+                                  <span class="hide-element-out-phone label-bold-550">Address : </span>{{item.Address}}
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13">
+                                  <span class="hide-element-out-phone label-bold-550">No. of listings :</span>{{item.CrawleredPostingNews}}
+                                </td>
+                                <td class="pull-left-phone padding-bottom-13">
+                                  <span class="hide-element-out-phone label-bold-550">Note : </span>{{item.Note}}
+                                </td>
+                                <td class="pull-left-phone  wap-padding-bottom-15">
+                                  <button class="btn btn-primary w-md m-b-5 dropdown-toggle" id="myManagerAction" type="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Manager
+                                  </button>
+                                  <div class="dropdown-menu" aria-labelledby="myManagerAction">
+                                    <a (click)="getLead(item.Id, item.AdminId)" href="javascript:void(0)" class="dropdown-item" name="getcustomer" title="Get Lead">
+                                        <div class="icon-item"><i class="fa fa-user"></i></div>
+                                        <div class="text-action">Get Lead</div>
+                                    </a>      
+                                    <a *ngIf="isRoledManagerOrHigher() && item.BlockStatus === 1"
+                                      (click)="leadBlock.LeadId = item.Id; block(item.Id);" href="javascript:void(0)" class="dropdown-item" name="acceptblockrequest"
+                                      title="Accept block request">
+                                      <div class="icon-item"><i class="fa fa-check"></i></div>
+                                    <div class="text-action">Block</div>
+                                    </a>   
+                                    <a *ngIf="isRoledManagerOrHigher() && item.BlockStatus === 1"
+                                    (click)="leadBlock.LeadId = item.Id; cancel(item.Id);" href="javascript:void(0)" class="dropdown-item" name="cancelblockrequest"
+                                      title="Cancel block request">
+                                      <div class="icon-item"><i class="fa fa-remove"></i></div>
+                                      <div class="text-action">Cancel request</div>
+                                    </a>                                  
+                                    <a *ngIf="isRoledManagerOrHigher() && item.BlockStatus === 2"
+                                    (click)="leadBlock.LeadId = item.Id; unblock(item.Id);" href="javascript:void(0)" class="dropdown-item" name="unblockrequest"
+                                      title="Unblock">
+                                      <div class="icon-item"><i class="fa fa-mail-reply"></i></div>
+                                    <div class="text-action">Unblock</div>
+                                    </a>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr *ngIf="isRoledManagerOrHigher()">
+                                  <td colspan="11">
+                                    <button [disabled]="isAssignPermission()" class="btn btn-danger"
+                                          href="#wrapAssignTo" (click)="isAssignMulti=true;" data-toggle="modal"
+                                          name="assigncustomer" title="Assign to customer">Assign</button> 
+                                        </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <app-paging [pageIndex]="1" [pageSize]="20"
+                          [totalRecord]="totalRejectedLead" (searchEvent)="search($event)">
+                        </app-paging>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="modal fade" id="wrapAssignTo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Assign to saleperson</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="control-container">
+                  <input type="text" name="FilterAssignto" #filterAssignTo class="form-control m-input" placeholder="Name/Email/Phone number">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="control-container">
+                  <button id="btnSearch" type="button" class="btn btn-success"
+                    (click)="searchAssigneeByKeyword(filterAssignTo.value,1)" tabindex="10" title="Search sale">
+                    <i class="m-icon-swapright m-icon-white"></i> Search
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                  <div class="table-responsive">
+  
+                      <table class="table table-hover table-striped mt-3" width="100%">
+                          <tbody>
+                              <tr *ngFor="let item of searchAssignee">
+                                  <td class="row">
+                                    <div class="col-md-1 col-1">
+                                      <button *ngIf="item.IsShowAll else buttoncollapse" type="button" class="toggle-row" (click)="item.IsShowAll = false" >
+                                        <i class="fa fa-caret-up"></i>
+                                      </button>
+                                      <ng-template #buttoncollapse>
+                                        <button  type="button" class="toggle-row" (click)="item.IsShowAll = true" >
+                                          <i class="fa fa-caret-down"></i>
+                                        </button>
+                                      </ng-template>
+                                    </div>
+                                    <div class="col-md-8 col-7">
+                                      <label class="cus-font-13 cus-font-weight-normal cus-suggest-expand" (click)="item.IsShowAll = !item.IsShowAll" style="color: #0073aa;">{{item.UserName}} ({{item.DisplayName}}) </label>
+                                    </div>
+                                    <div class="col-md-3 col-3">
+                                        <button *ngIf="!isAssignMulti else assignmultiaction" title="Assign to this sale" class="btn btn-add btn-sm btn-sm-fontsize-12" (click)="assignLead(item.Id)"
+                                          id="myManagerAction" type="button">
+                                          Assign
+                                      </button>
+                                      <ng-template #assignmultiaction>
+                                          <button title="Assign to this sale" class="btn btn-add btn-sm btn-sm-fontsize-12" (click)="assignMultiLead(item.Id)"
+                                              id="myManagerAction" type="button">
+                                              Assign
+                                          </button>
+                                      </ng-template>
+                                    </div>
+                                    <div *ngIf="item.IsShowAll" class="detail col-12">
+                                      <div class="full-width cus-font-13"><label class="label-bold-550">ID : </label> {{item.Id}}</div>
+                                      <div class="full-width cus-font-13"><label class="cus-font-13 label-bold-550">Phone number : </label> {{item.PhoneNumber}}</div>
+                                      <div class="full-width cus-font-13"><label class="cus-font-13 label-bold-550">Email : </label> {{item.Email}}</div>
+                                    </div>
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                    </div>  
+              </div>
+  
+              <div class="col-md-12">
+                <app-paging [pageIndex]="1" [pageSize]="assigneePageSize" [totalRecord]="totalSearchAssignee"
+                  (searchEvent)="searchAssigneeByKeyword(filterAssignTo.value,$event)"></app-paging>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" name="close" d="btnCloseAssignTo" class="btn btn-danger" data-dismiss="modal"> Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="wrapRejection" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Reason for rejection</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;
+              </span></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="control-group">
+                  <label class="control-label">Select a reason <span class="required">*</span></label>
+                  <div class="controls">
+                    <select [(ngModel)]="leadReject.Type" name="rejectReasonType" class="form-control m-input">
+                      <option value="Not interested">Not interested</option>
+                      <option value="Wrong contact">Wrong contact</option>
+                      <option value="Car sold">Car sold</option>
+                      <option value="">Other</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div *ngIf="leadReject.Type == null || leadReject.Type === ''">
+                  <label class="control-label">Note</label>
+                  <div class="controls">
+                    <textarea [(ngModel)]="leadReject.Note" required name="note" cols="3" rows="5"
+                      class="form-control m-input"></textarea>
+                  </div>
+                  <div *ngIf="leadReject.IsInvalid" class="invalid-feedback">
+                    <div>Note is required</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" name="save" (click)="rejectandnote(leadReject.Id)" class="btn btn-success" title="Save">
+              <i class="icon-save"></i> Save
+            </button>
+            <button type="button" name="close" class="btn btn-danger" data-dismiss="modal" aria-hidden="true" title="Close">
+              <i class="icon-remove"></i>Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="wrapBlockUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Reasons for blockage</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;
+              </span></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div [ngClass]="leadBlock.TypeIsInvalid ? 'control-group error' :  'control-group'">
+                  <label class="control-label">Reason <span class="required">*</span></label>
+                  <div class="controls">
+                    <select [(ngModel)]="leadBlock.BlockReasonType" required name="blockReasonType"
+                      class="form-control m-input">
+                      <option *ngFor="let item of leadInit.AllReasonBlock" value="{{item.Key}}">{{item.Value}}</option>
+                    </select>
+                  </div>
+                  <div *ngIf="leadBlock.TypeIsInvalid" class="invalid-feedback display-block">
+                    <div>Reason is required</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div [ngClass]="leadBlock.NoteIsInvalid ? 'control-group error' :  'control-group'">
+                  <label class="control-label">Note</label>
+                  <div class="controls">
+                    <textarea [(ngModel)]="leadBlock.BlockReasonDescription" name="note" cols="3" rows="5"
+                      class="form-control m-input"></textarea>
+                  </div>
+                  <div *ngIf="leadBlock.NoteIsInvalid" class="invalid-feedback display-block">
+                    <div>Note is required</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" name="save" (click)="addBlockRequest()" class="btn btn-success" title="Save">
+              <i class="icon-save"></i> Save
+            </button>
+            <button type="button" name="close" class="btn btn-danger" data-dismiss="modal" aria-hidden="true" title="Close">
+              <i class="icon-remove"></i>Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="wrapNote" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Note</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;
+              </span></button>
+          </div>
+          <div class="modal-body">
+            <div class="row-fluid">
+              <div class="span11">
+                <div [ngClass]="leadNote.IsInvalid ? 'control-group error' :  'control-group'">
+                  <label class="control-label">Note <span class="required">*</span></label>
+                  <div class="controls">
+                    <textarea [(ngModel)]="leadNote.Note" required name="note" cols="3" placeholder="--Note--" rows="5"
+                      class="form-control m-input m-input--solid"></textarea>
+                  </div>
+                  <div *ngIf="leadNote.IsInvalid" class="invalid-feedback  display-block">
+                    <div>Note is required</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" name="save" (click)="addNote()" class="btn btn-success" title="Save">
+              <i class="icon-save"></i> Save
+            </button>
+            <button type="button" name="close" class="btn btn-danger" data-dismiss="modal" aria-hidden="true" title="Close">
+              <i class="icon-remove"></i>Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

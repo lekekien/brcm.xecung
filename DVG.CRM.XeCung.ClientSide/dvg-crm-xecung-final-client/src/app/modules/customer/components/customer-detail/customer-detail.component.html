@@ -1,0 +1,195 @@
+<div class="right-action">
+  <div class="btnright">
+      <a routerLink="/customer">
+      <i style="color: white;" class="fa fa-list"></i> &nbsp; <span class="show-text">Customer File Management</span> 
+      </a>
+  </div>
+</div>
+<div class="wrapper">
+<div class="content-wrapper">
+  <section class="content-header">
+    <div class="header-icon">
+      <i class="fa fa-users"></i>
+    </div>
+    <div class="header-title">
+      <h1>Customer File Detail</h1>
+      <small>Customer list</small>
+    </div>
+  </section>
+  <div class="content">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card lobicard all_btn_card" id="lobicard-custom-control1" data-sortable="true">
+          <div class="card-header all_card_btn">
+            <div class="card-title custom_title margin-bottom-0">
+              <ul class="nav nav-tabs" id="myTab1" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" id="customer_info_tab" data-toggle="tab" href="#customer_info" role="tab"
+                    aria-controls="customer_info" aria-selected="true">Chi tiết KH</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="customer_listing_history_tab" data-toggle="tab" href="#customer_listing_history" role="tab"
+                    aria-controls="customer_listing_history" aria-selected="false">Lịch sử thông tin KH</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="customer_status_history_tab" data-toggle="tab" href="#customer_status_history" role="tab"
+                    aria-controls="customer_status_history" aria-selected="false">Lịch sử chăm sóc KH</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="customer_note_history_tab" data-toggle="tab" href="#customer_note_history" role="tab"
+                      aria-controls="customer_note_history" aria-selected="false">Lịch thao tác KH</a>
+                  </li>
+              </ul>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="custom_tabs">
+              <div class="card2-body card_card">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="customer_info" role="tabpanel" aria-labelledby="customer_info_tab">
+                      
+                        <div class="row">
+                          <div class="col-md-6">
+                            <ul>
+                              <li >
+                                <div class="d-flex align-items-center">
+                                    <label class="label-bold-550" style="margin-bottom: 0">ID : </label>
+                                    <label style="font-weight: normal; margin-right: 1em; margin-bottom: 0">{{customerDetail.Id}}</label>
+                                    <!-- <i [ngClass]="customerDetail.IsFavorite ? 'fa fa-star' : 'fa fa-star-o'" [attr.title]="customerDetail.IsFavorite ? 'customer is favorite': ''"  style="font-size: 35px;color: red;"></i> -->
+                                </div>
+                              </li>
+                              <li>
+                                  <label class="label-bold-550">Tạo lúc : </label> 
+                                  <label style="font-weight: normal;">{{customerDetail.CreatedDate | date:'MM/dd/yyyy' }}</label>
+                              </li>
+                              <li>
+                                  <label class="label-bold-550">Tạo bởi : </label> 
+                                  <label style="font-weight: normal;">{{customerDetail.CreatedBy}}</label>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <label class="label-bold-550">Tên khách hàng</label>
+                            <label class="form-control m-input">{{customerDetail.Name}}</label>
+                          </div>
+                          <div class="col-md-6">
+                            <label class="label-bold-550">Số điện thoại</label>
+                            <label class="form-control m-input">{{customerDetail.PhoneNumber}}</label>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <label class="label-bold-550">Email</label>
+                            <label class="form-control m-input">{{customerDetail.Email}}</label>
+                          </div>
+                          <div class="col-md-6">
+                            <label class="label-bold-550">Nguồn khách hàng</label>
+                            <label class="form-control m-input">{{customerDetail.ScourceName}}</label>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <label class="label-bold-550">Loại khách hàng</label>
+                            <label class="form-control m-input">{{customerDetail.TypeName}}</label>
+                          </div>
+                          <div class="col-md-6">
+                            <label class="label-bold-550">Trạng thái</label>
+                            <label class="form-control m-input">{{customerDetail.StatusName}}</label>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <label class="label-bold-550">Facebook</label>
+                            <label class="form-control m-input">
+                              <a class="link" href="{{customerDetail.FacebookLink}}" target="_blank" >{{customerDetail.FacebookLink}}</a>
+                            </label>
+                          </div>
+                          <div class="col-md-6">
+                            <label class="label-bold-550">Ngày tháng năm sinh</label>
+                            <label class="form-control m-input">{{customerDetail.Birthday |  date: 'MM/dd/yyyy'}}</label>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <label class="label-bold-550">Công ty</label>
+                            <label class="form-control m-input">{{customerDetail.Company}}</label>
+                          </div>
+                          <div class="col-md-6">
+                            <label class="label-bold-550">Vị trí</label>
+                            <label class="form-control m-input">{{customerDetail.Position}}</label>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <label class="label-bold-550">N.V phụ trách</label>
+                            <label class="form-control m-input">{{customerDetail.AssigneeName}}</label>
+                          </div>
+                          <div class="col-md-6">
+                              <label class="label-bold-550">Ghi chú</label>
+                              <label class="form-control m-input">{{customerDetail.Description}}</label>
+                            </div>
+                        </div>
+                      </div>
+                  <div class="tab-pane" id="customer_listing_history" role="tabpanel" aria-labelledby="customer_listing_history_tab">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-striped table-hover" width="100%">
+                        <thead class="back_table_color">
+                          <tr>
+                            <th class="w20">#</th>
+                            <th>Time</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of customerDetail.LstCareHistory">
+                              <td>{{item.Index}}</td>
+                              <td>{{item.ActivityTime | date: 'MM/dd/yyyy HH:mm:ss'}}</td>
+                              <td>{{item.ActivityType === 1 ? 'Posting (Id : '+ item.ProductId +') is approved' : 'Login'}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <app-paging [pageIndex]="1" [pageSize]="10" [totalRecord]="customerDetail.TotalCareHistory" (searchEvent)="getListCareHistory($event)"  ></app-paging>
+                    </div>
+                    
+                  </div>
+                  <div class="tab-pane" id="customer_status_history" role="tabpanel" aria-labelledby="customer_status_history_tab">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-striped table-hover" width="100%">
+                        <thead class="back_table_color">
+                          <tr>
+                            <th class="w20">#</th>
+                            <th>Action</th>
+                            <th>Old State</th>
+                            <th>New State</th>
+                            <th>Note</th>
+                            <th>Created by </th>
+                            <th>Created time </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of customerDetail.LstActivityHistory">
+                            <td>{{item.Index}}</td>
+                            <td>{{item.ActionName}}</td>
+                            <td>{{item.OldValue}}</td>
+                            <td>{{item.NewValue}}</td>   
+                            <td>{{item.Note}}</td>   
+                            <td>{{item.UpdatedBy}}</td>   
+                            <td>{{item.UpdatedDate |  date: 'MM/dd/yyyy HH:mm:ss' }}</td>   
+                          </tr>
+                        </tbody>
+                      </table>
+                      <app-paging [pageIndex]="1" [pageSize]="10" [totalRecord]="customerDetail.TotalActivityHistory"  (searchEvent)="getListActivityHistory($event)"></app-paging>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

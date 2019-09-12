@@ -1,0 +1,166 @@
+<div class="wrapper">
+  <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+          <div class="header-icon">
+              <i class="fa fa-users"></i>
+          </div>
+          <div class="header-title">
+              <h1 *ngIf="contactcreate" >Create A New Contact</h1>
+              <h1 *ngIf="!contactcreate">Create A New Contact</h1>
+              <small>Contact management</small>
+          </div>
+      </section>
+      <div class="content">           
+          <div class="col-sm-12">
+              <div class="card lobicard all_btn_card" id="lobicard-custom-control1" data-sortable="true">
+                  <div class="card-header all_card_btn">
+                  </div>    
+                  <form  name="form" (ngSubmit)="f.form.valid && update()" #f="ngForm" novalidate>
+                      <div class="card-body row">
+                          <div class="col-md-6 col-sm-6">
+                              <div class="form-group">
+                                  <label>Name <span class="red">*</span></label>
+                                  <input type="text" [(ngModel)]="contactModel.Name" placeholder="Name" name="name" appOnlyAllspacecheck required #name="ngModel" class="form-control">
+                                  <ng-container *ngIf="f.submitted && name.invalid">
+                                     <div class="help-block small text-error" *ngIf="name.errors.required">Name is required</div>
+                                     <div class="help-block small text-error" *ngIf="name.errors.isallspace">Name is invalid</div>
+                                   </ng-container> 
+                              </div>
+                          </div>
+                          <div class="col-md-6 col-sm-6">
+                              <div class="form-group">
+                                  <label>Email <span class="red">*</span></label>
+                                  <input type="text" [(ngModel)]="contactModel.Email" name="email" required email #email="ngModel" placeholder="Email" class="form-control "  email #email="ngModel">
+                                  <ng-container *ngIf="f.submitted && email.invalid">
+                                      <div class="help-block small text-error" *ngIf="email.errors.required">Email is required</div>
+                                      <div class="help-block small text-error" *ngIf="email.errors.email">Email is invalid</div>
+                                  </ng-container>
+                              </div>
+                          </div>
+                          <div class="col-md-6 col-sm-6">
+                              <div class="form-group">
+                                  <label>PhoneNumber <span class="red">*</span></label>
+                                  <input type="text" placeholder="Phone number" [(ngModel)]="contactModel.PhoneNumber" name="phonenumber" required appPhonenumberValidator #phonenumber="ngModel"  class="form-control">
+                                  <ng-container *ngIf="f.submitted && phonenumber.invalid">
+                                      <div class="help-block small text-error" *ngIf="phonenumber.errors.required">PhoneNumber is required</div>
+                                      <div class="help-block small text-error" *ngIf="phonenumber.errors.isphone">PhoneNumber is required</div>
+                                  </ng-container> 
+                              </div>
+                          </div>                         
+                          <div class="col-md-6 col-sm-6">
+                              <div class="form-group">
+                                  <div class="control-container">
+                                      <label>City/Region <span class="red">*</span></label>
+                                      <select allow-clear="true" [(ngModel)]="contactModel.CityRegion" name="cityregion" id="dllCityRegionCreate" #cityregion="ngModel" required class="form-control m-select2" data-placeholder="--City/Region--">
+                                        <option *ngFor="let item of location.AllCityRegion" [value]="item.Key">{{item.Value}}</option>
+                                      </select>
+                                      <div *ngIf="f.submitted && cityregion.invalid" class="invalid-feedback display-block">
+                                          <div *ngIf="cityregion.errors.required">City is required</div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-6 col-sm-6">
+                              <div class="form-group">
+                                  <label>TaxCode <span class="red">*</span></label>
+                                  <input type="text" placeholder="Taxcode" [(ngModel)]="contactModel.TaxCode" name="taxcode" required #taxcode="ngModel"  class="form-control" appOnlyAllspacecheck>
+                                  <div *ngIf="f.submitted && taxcode.invalid" class="invalid-feedback display-block">
+                                      <div *ngIf="taxcode.errors.required">TaxCode is required</div>
+                                      <div *ngIf="taxcode.errors.isallspace">TaxCode is invalid</div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-6 col-sm-6">
+                              <div class="form-group">
+                                  <label>Address</label>
+                                  <input type="text" placeholder="Address" [(ngModel)]="contactModel.Address" name="address"  class="form-control">
+                              </div>
+                          </div>
+                          <div class="col-md-6 col-sm-6">
+                              <div class="form-group">
+                                  <div class="control-container">
+                                      <label>Organization Type <span class="red">*</span></label>
+                                      <select [(ngModel)]="contactModel.OrganizationType" name="organization" #organization ="ngModel" required id="selCityCreate" class="form-control">
+                                        <option *ngFor="let item of dropdown.ListOrganization" [value]="item.Key">{{item.Value}}</option>
+                                      </select>
+                                    <ng-container *ngIf="f.submitted && organization.invalid">
+                                      <div class="help-block small text-error" *ngIf="organization.errors.required">Organization is required</div>
+                                    </ng-container>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12">
+                              <div class="form-group">
+                                  <div class="row">
+                                        <div class="col-md-6">
+                                                <label>Note</label>  
+                                        </div>
+                                        <div class="col-md-6">
+                                                <a href="#showNote" data-toggle="modal" class="pull-right" *ngIf="!contactcreate">
+                                                        <button type="button" id="btnResetCreate" class="btn btn-primary " value="0" title="Reset to default">
+                                                          <i class="fa fa-list"></i> Previous Note
+                                                        </button>
+                                                      </a>  
+                                        </div>
+                                  </div>
+                                  
+                                  
+                                  <textarea class="form-control textarea" [(ngModel)]="contactModel.Note" placeholder="Note" name="note" cols="3" rows="5"></textarea>
+                              </div>
+                          </div>
+                          <div class="col-md-12">
+                              <div class="reset-button">
+                                  <button type="submit" style="margin-right: 10px;" class="btn btn-success"> Save</button>
+                                  <button type="button" (click)="refresh()" class="btn btn-warning" style="margin-right: 10px;">Refresh</button>        
+                                  <button type="button" (click)="closeForm()" style="margin-right: 10px;" class="btn btn-danger"> Close</button>                   
+                              </div>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+      <div class="modal fade" id="showNote" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Contact Note History</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                  <div class="table-responsive">
+                      <table class="table table-bordered table-hover table-striped mt-3" width="100%">
+                            <thead class="back_table_color">
+                                    <tr>
+                                      <th>Time Created Note</th>
+                                      <th>Note</th>
+                                      <th>Note Created By</th>
+                                    </tr>
+                          </thead>
+                          <tbody>
+                                <tr *ngFor="let item of contactModel.ListContactNote; let i = indexOrder">
+                                        <td>{{item.NoteCreatedDate | date:'MM/dd/yyyy hh:mm:ss'}}</td>
+                                        <td>{{item.Note}}</td>
+                                        <td>{{item.UserName}}</td>
+                                      </tr>
+                          </tbody>
+                      </table>
+                    </div>  
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" name="close" d="btnCloseAssignTo" class="btn btn-danger" data-dismiss="modal"> Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  
+</div>

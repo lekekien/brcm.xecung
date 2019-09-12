@@ -1,0 +1,227 @@
+<div class="right-action">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="btnright">
+        <a routerLink="/customer/update">
+          <i style="color: white;" class="fa fa-users"></i> &nbsp; <span class="show-text">Create Customer File</span> 
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper">
+  <div class="content-wrapper">
+    <section class="content-header">
+      <div class="header-icon">
+        <i class="fa fa-users"></i>
+      </div>
+      <div class="header-title">
+        <h1>Customer File Management</h1>
+        <small>Customer list</small>
+      </div>
+    </section>
+    <div class="content">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card lobicard all_btn_card" id="lobicard-custom-control1" data-sortable="true">
+            <div class="card-header all_card_btn">
+              <div class="card-title custom_title">
+                <h4 >Search box</h4>
+              </div>
+            </div>
+            <div class="card-body row">
+              <div class="col-lg-4 col-md-6">
+                <div class="form-group">
+                  <div class="control-container">
+                    <textarea class="form-control" [(ngModel)]="customerDataProvider.customerIndex.FilterKeyword"
+                      name="filterKeyword" placeholder="Từ khóa" rows="1"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6">
+                <div class="form-group">
+                  <div class="control-container">
+                    <select id="selCustomerType" name="customertype" [(ngModel)]="customerDataProvider.customerIndex.Type" placeholder="--Loại khách hàng--" class="form-control" tabindex="4">
+                      <option value="0" >--Loại khách hàng--</option>
+                      <option *ngFor="let item of customerInit.AllCustomerType" value="{{item.Key}}">{{item.Value}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6">
+                <div class="form-group">
+                  <div class="control-container">
+                    <select id="selCustomerScource" name="customerscource" [(ngModel)]="customerDataProvider.customerIndex.Scource" placeholder="--Nguồn khách hàng--" class="form-control" tabindex="4">
+                      <option value="0" >--Nguồn khách hàng--</option>
+                      <option *ngFor="let item of customerInit.AllCustomerScource" value="{{item.Key}}">{{item.Value}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6">
+                <div class="form-group">
+                  <div class="control-container">
+                    <select id="selCustomerStatus" name="customerstatus" [(ngModel)]="customerDataProvider.customerIndex.Status" placeholder="--Trạng thái khách hàng--" class="form-control" tabindex="4">
+                      <option value="0" >--Trạng thái khách hàng--</option>
+                      <option *ngFor="let item of customerInit.AllCustomerStatus" value="{{item.Key}}">{{item.Value}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-lg-2 col-md-6">
+                <div class="form-group">
+                  <div class="control-container">
+                    <select id="assigneeId" name="assigneeid" [(ngModel)]="customerDataProvider.customerIndex.AssigneeId" placeholder="--NV chăm sóc--" class="form-control" tabindex="4">
+                      <option value="-1" >--Chưa có NV chăm sóc--</option>
+                      <option value="0" >--Đã có NV chăm sóc--</option>
+                      <option *ngFor="let item of customerInit.AllAssignee" value="{{item.Key}}">{{item.Value}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div> -->
+              <div class="col-lg-2 col-md-6 mg-bot-12">
+                <div class="form-group">
+                  <div class="control-container">
+                    <app-datepickercustom 
+                      [idSelector]="'txtStartDate'" 
+                      [nameSelector]="'startdate'"
+                      [placeholderSelector]="'--Từ ngày--'"
+                      (changedModelDate)="customerDataProvider.customerIndex.CreatedDateFrom = $event">
+                    </app-datepickercustom>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 mg-bot-12">
+                <div class="form-group">
+                  <div class="control-container">
+                    <app-datepickercustom 
+                      [idSelector]="'txtEndDate'" 
+                      [nameSelector]="'enddate'"
+                      [placeholderSelector]="'--Đến ngày--'"
+                      (changedModelDate)="customerDataProvider.customerIndex.CreatedDateTo = $event">
+                    </app-datepickercustom>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6">
+                  <div class="form-group">
+                    <div class="control-container">
+                      <select id="selOrder" name="ordercustomer" [(ngModel)]="customerDataProvider.customerIndex.Order" class="form-control dropdown-padding-left"
+                        data-placeholder="--Sắp xếp--" tabindex="8">
+                        <option selected="selected" value="0"><span >Mặc định</span></option>
+                        <option value="1"><span >Sort Smallest to Largest</span></option>
+                        <option value="2"><span >Sort Largest to Smallest</span></option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              <div class="col-lg-2 col-md-3">
+                <div class="form-group">
+                  <div class="control-container">
+                    <button class="btn btn-success" style="width: 100%;" (click)="search(1)" name="search" type="button" >
+                      Tìm kiếm
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card lobicard all_btn_card" id="lobicard-custom-control1" data-sortable="true">
+            <div class="card-body">
+              <div class=" custom_tabs">
+                <div class="card2-body card_card">
+                  <div class="tab-content">
+                    <div class="tab-pane active" id="m_tabs_pending" role="tabpanel">
+                      <div class="table-responsive">
+                        <table  style="width: 100%;"
+                          class="table table-bordered table-striped table-hover">
+                          <thead class="back_table_color">
+                            <tr class="hide-element-phone">
+                                  <th class="w20">#</th>
+                                  <th>Mã KH</th>
+                                  <th>Tên KH</th>
+                                  <th>Email </th>
+                                  <th>SĐT</th>
+                                  <th>Ngày tháng năm sinh</th>
+                                  <th>Facebook</th>
+                                  <th>Công ty</th>
+                                  <th>Vị trí</th>
+                                  <th>N.V phụ trách</th>
+                                  <th>Thao tác</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item of customerDataProvider.lstCustomer; let i = index;">
+                              <td class="pull-left-phone padding-bottom-13 hide-element-phone">
+                                <span class="hide-element-out-phone label-bold-550">#: </span>{{i +1}}
+                              </td>
+                              <td class="pull-left-phone padding-bottom-13" (click)="item.IsShowAll = !item.IsShowAll">
+                                  <div class="toggle-wap">
+                                    <span class="hide-element-out-phone label-bold-550">Mã KH: </span>{{item.CustomerCode}}
+                                  </div>
+                                  <div class="toggle-wap-icon hide-element-out-phone">
+                                      <ng-container *ngIf="item.IsShowAll else collapse">
+                                        <i class="fa fa-caret-up"></i>
+                                      </ng-container>
+                                      <ng-template #collapse>
+                                          <ng-container>
+                                            <i class="fa fa-caret-down"></i>
+                                          </ng-container>
+                                      </ng-template>
+                                    </div>
+                              </td>
+                              <td class="pull-left-phone padding-bottom-13">
+                                <span class="hide-element-out-phone label-bold-550"><span >Tên KH</span>: </span>{{item.Name}}
+                              </td>
+                              <td [ngClass]="item.IsShowAll ? 'pull-left-phone padding-bottom-13' : 'hide-element-phone padding-bottom-13'">
+                                  <span class="hide-element-out-phone label-bold-550"><span >Email</span>: </span>{{item.Email}}
+                              </td>
+                              <td [ngClass]="item.IsShowAll ? 'pull-left-phone padding-bottom-13' : 'hide-element-phone padding-bottom-13'">
+                                  <span class="hide-element-out-phone label-bold-550"><span >SĐT</span>: </span>{{item.PhoneNumber}}
+                              </td>
+                              <td [ngClass]="item.IsShowAll ? 'pull-left-phone padding-bottom-13' : 'hide-element-phone padding-bottom-13'">
+                                  <span class="hide-element-out-phone label-bold-550"><span >Ngày tháng năm sinh</span>: </span>{{item.Birthday | date:'MM/dd/yyyy'}}
+                              </td>
+                              <td [ngClass]="item.IsShowAll ? 'pull-left-phone padding-bottom-13' : 'hide-element-phone padding-bottom-13'">
+                                  <span class="hide-element-out-phone label-bold-550"><span >Facebook</span>: </span>
+                                  <a class="link" target="_blank" href="{{item.FacebookLink}}" [innerHtml] = "subStringNote(item.FacebookLink)"></a>
+                              </td>
+                              <td [ngClass]="item.IsShowAll ? 'pull-left-phone padding-bottom-13' : 'hide-element-phone padding-bottom-13'">
+                                  <span class="hide-element-out-phone label-bold-550"><span >Công ty</span>: </span>{{item.Company}}
+                              </td>
+                              <td [ngClass]="item.IsShowAll ? 'pull-left-phone padding-bottom-13' : 'hide-element-phone padding-bottom-13'">
+                                  <span class="hide-element-out-phone label-bold-550"><span >Vị trí</span>: </span>{{item.Position}}
+                              </td>
+                              <td [ngClass]="item.IsShowAll ? 'pull-left-phone padding-bottom-13' : 'hide-element-phone padding-bottom-13'">
+                                <span class="hide-element-out-phone label-bold-550"><span >N.V phụ trách</span>: </span>{{item.AssigneeName}}
+                            </td>
+                              <td class="pull-left-phone wap-padding-bottom-15">
+                                  <div class="dropdown">
+                                      <button  class="btn btn-primary w-md m-b-5 dropdown-toggle" id="myManagerAction" 
+                                        type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span >Manager</span>
+                                      </button>
+                                  </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <app-paging [pageIndex]="customerDataProvider.customerIndex.PageIndex" [pageSize]="customerDataProvider.customerIndex.PageSize" 
+                            [totalRecord]="customerDataProvider.totalCustomer" (searchEvent)="search($event)"></app-paging>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

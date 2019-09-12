@@ -1,0 +1,73 @@
+.m-datatable {
+    display: none;
+}
+.m-datatable.m-datatable--default {
+    display: block;
+}
+.m-datatable.m-datatable--default.m-datatable--loaded {
+    display: block;
+}
+.m-datatable.m-datatable--default>.m-datatable__pager {
+    margin-top: 20px;
+}
+.m-datatable.m-datatable--default>.m-datatable__pager>.m-datatable__pager-nav {
+    margin: 10px 0 0 0;
+    padding: 0;
+    display: inline-block;
+}
+.m-datatable.m-datatable--default>.m-datatable__pager>.m-datatable__pager-nav>li {
+    padding: 0;
+    margin-right: 5px;
+    display: inline-block;
+}
+
+.m-datatable>.m-datatable__pager>.m-datatable__pager-nav>li>.m-datatable__pager-link {
+    color: #898b96;
+}
+
+.m-datatable.m-datatable--default>.m-datatable__pager>.m-datatable__pager-nav>li>.m-datatable__pager-link {
+    cursor: pointer;
+    display: inline-block;
+    height: 2.25rem;
+    min-width: 2.25rem;
+    vertical-align: middle;
+    padding: .5rem;
+    text-align: center;
+    position: relative;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    -ms-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    -ms-align-items: center;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 14px;
+    line-height: 1rem;
+    font-weight: 400;
+}
+
+.m-datatable>.m-datatable__pager>.m-datatable__pager-nav>li>.m-datatable__pager-link.m-datatable__pager-link--first, .m-datatable>.m-datatable__pager>.m-datatable__pager-nav>li>.m-datatable__pager-link.m-datatable__pager-link--last, .m-datatable>.m-datatable__pager>.m-datatable__pager-nav>li>.m-datatable__pager-link.m-datatable__pager-link--next, .m-datatable>.m-datatable__pager>.m-datatable__pager-nav>li>.m-datatable__pager-link.m-datatable__pager-link--prev {
+    background: #ebe9f2;
+}
+
+.m-datatable>.m-datatable__pager>.m-datatable__pager-nav>li>.m-datatable__pager-link:hover {
+    background: #1B7E5A;
+    color: #fff;
+}
+.m-datatable>.m-datatable__pager>.m-datatable__pager-nav>li>.m-datatable__pager-link.m-datatable__pager-link--active {
+    background: #1B7E5A;
+    color: #fff;
+}
+.m-datatable.m-datatable--default>.m-datatable__pager>.m-datatable__pager-info {
+    float: right;
+    margin-top: 10px;
+    font-size: 14px;
+}

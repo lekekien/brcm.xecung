@@ -1,0 +1,226 @@
+<div class="wrapper">
+  <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+          <div class="header-icon">
+              <i class="fa fa-users"></i>
+          </div>
+          <div class="header-title">
+              <h1>Contact Management</h1>
+              <small>Contact list</small>
+          </div>
+      </section>
+      <div class="content">
+          <div class="row">
+              <div class="col-sm-12">
+                <div class="card lobicard all_btn_card" id="lobicard-custom-control1" data-sortable="true">
+                  <div class="card-header all_card_btn">
+                    <div class="card-title custom_title">
+                      <h4>Search box</h4>
+                    </div>
+                  </div>
+                  <div class="card-body row">                   
+                    <div class="col-lg-3 col-md-6">
+                      <div class="form-group">
+                        <div class="control-container">
+                          <select [(ngModel)]="organizationType" (ngModelChange)="getList(1)" name="state" class="form-control"
+                            id="selCustomerSearchStates">
+                            <option value="0">--All Organization--</option>
+                            <option *ngFor="let item of dropdown.ListOrganization" value="{{item.Key}}">{{item.Value}}
+                              </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>     
+                    <div class="col-lg-3 col-md-3" *ngIf="isAdmin || isManager">
+                        <div class="form-group">
+                          <div class="control-container">
+                            <button class="btn btn-success" style="width: 100%;" routerLink="/contact/create" name="addcontact"
+                              type="button">
+                              Add New Contact
+                            </button>
+                          </div>
+                        </div>
+        
+                      </div>
+                      <div class="col-lg-3 col-md-3" *ngIf="isAdmin || isManager">
+                          <div class="form-group">
+                            <div class="control-container">
+                                <div style="display: none;">
+                                    <input type="file" #file id="fileImport" value="Import" (change)="handleFileInput(file.files)" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" >
+                                    </div>
+                              <button class="btn btn-primary" style="width: 100%;" onclick="document.getElementById('fileImport').click()"
+                                type="button">
+                                Import
+                              </button>
+                            </div>
+                          </div>
+          
+                        </div>          
+                    <div class="col-lg-3 col-md-3" *ngIf="isAdmin || isManager">
+                      <div class="form-group">
+                        <div class="control-container">
+                          <button class="btn btn-danger" style="width: 100%;" (click)="downloadTemplate()"
+                            type="button">
+                            Download Template
+                          </button>
+                        </div>
+                      </div>
+      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 pinpin">
+                  <div class="card lobicard" id="lobicard-custom-control" data-sortable="true">
+                    <div class="card-header">
+                      <div class="card-title custom_title">
+                        <h4>Contact</h4>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <!-- Plugin content:powerpoint,txt,pdf,png,word,xl -->
+                      
+                      <!-- ./Plugin content:powerpoint,txt,pdf,png,word,xl -->
+                      <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-hover">
+                          <thead class="back_table_color">
+                            <tr class="info hide-element-phone">
+                              <th class="w20">#</th>
+                              <th>ID</th>
+                              <th>Name</th>
+                              <th>OrganizationType</th>
+                              <th>Tax Code </th>
+                              <th>Phone Number </th>
+                              <th>Email</th>
+                              <th>City/Region</th>
+                              <th>Address</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item of lstContact; let i = index">
+                              <td class="pull-left-phone padding-bottom-13" (click)="item.IsShowAll = !item.IsShowAll">
+                                  <div class="toggle-wap">
+                                    <span class="hide-element-out-phone label-bold-550"># : </span>{{i+1}}
+                                  </div>
+                                  <div class="toggle-wap-icon hide-element-out-phone">
+                                      <ng-container *ngIf="item.IsShowAll else collapse">
+                                        <i class="fa fa-caret-up"></i>
+                                      </ng-container>
+                                      <ng-template #collapse>
+                                          <ng-container>
+                                            <i class="fa fa-caret-down"></i>
+                                          </ng-container>
+                                      </ng-template>
+                                    </div>
+                              </td>
+                              <td class="pull-left-phone padding-bottom-13">
+                                <span class="hide-element-out-phone label-bold-550">ID: </span>{{item.Id}}
+                              </td>
+                              <td class="pull-left-phone padding-bottom-13">
+                                <span class="hide-element-out-phone label-bold-550">Name: </span>{{item.Name}}
+                              </td>
+                              <td class="pull-left-phone padding-bottom-13">
+                                <span class="hide-element-out-phone label-bold-550">Organization Type : </span>{{item.OrganizationName}}
+                              </td>
+                              <td [ngClass]="item.IsShowAll ? 'pull-left-phone padding-bottom-13' : 'hide-element-phone'">
+                                <span class="hide-element-out-phone label-bold-550">Tax Code : </span>{{item.TaxCode}}
+                              </td>
+                              <td [ngClass]="item.IsShowAll ? 'pull-left-phone padding-bottom-13' : 'hide-element-phone'">
+                                  <span class="hide-element-out-phone label-bold-550">Phone Number : </span>{{item.PhoneNumber}}
+                              </td>
+                              <td [ngClass]="item.IsShowAll ? 'pull-left-phone padding-bottom-13' : 'hide-element-phone'">
+                                  <span class="hide-element-out-phone label-bold-550">Email : </span>{{item.Email}}
+                              </td>
+                              <td [ngClass]="item.IsShowAll ? 'pull-left-phone padding-bottom-13' : 'hide-element-phone'">
+                                  <span class="hide-element-out-phone label-bold-550">City/Region : </span>{{item.CitiRegionName}}
+                              </td>
+                              <td [ngClass]="item.IsShowAll ? 'pull-left-phone padding-bottom-13' : 'hide-element-phone'">
+                                  <span class="hide-element-out-phone label-bold-550">Address : </span> {{item.Address}}
+                              </td>
+                              <td class="pull-left-phone wap-padding-bottom-15" *ngIf="isAdmin || isManager">
+                                <span>
+                                  <div class="dropdown">
+                                    <button class="btn btn-primary w-md m-b-5 dropdown-toggle" id="myManagerAction"
+                                      type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Manager
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="myManagerAction">
+                                      <a class="dropdown-item" [routerLink]="[ '/contact/edit',item.Id]">
+                                        <div class="icon-item"><i class="fa fa-edit"></i></div>
+                                        <div class="text-action">Edit Details</div>
+                                      </a>
+                                      <a class="dropdown-item" href="#showCustomer" data-toggle="modal" (click)="getListCustomer(1,item.Id)">
+                                        <div class="icon-item"><i class="fa fa fa-book"></i></div>
+                                        <div class="text-action"> Show Customer</div>
+                                      </a>
+                                    </div>
+                                  </div>
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <app-paging [pageIndex]="1" [pageSize]="20"
+                          [totalRecord]="paging.TotalRecord" (searchEvent)="getList($event)"></app-paging>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+      </div>
+  </div>
+  
+</div>
+<div class="modal fade" id="showCustomer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Customer File</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">
+                        &times;
+                    </span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row-fluid">
+                    
+                    <table class="table table-bordered table-striped table-hover mt-2">
+                        <thead class="back_table_color">
+                          <tr class="info hide-element-phone">
+                              <th class="w20">#</th>
+                              <th>ID</th>
+                              <th>Go Detail</th>
+                              <th>Name</th>
+                              <th>Phone Number</th>
+                              <th>Email</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of listCustomer; let i = index">
+                                <td>{{i + 1}}</td>
+                                <td><a class="goto-link" href="/customer/detail/{{item.Id}}">Detail Customer</a></td>
+                                <td>{{item.Id}}</td>
+                                <td>{{item.Name}}</td>
+                                <td>{{item.PhoneNumber}}</td>
+                                <td>{{item.Email}}</td>
+                            </tr>
+                        </tbody>
+                      </table>
+                      <app-paging [pageIndex]="pagingCustomer.PageIndex" [pageSize]="pagingCustomer.PageSize"
+            [totalRecord]="pagingCustomer.TotalRecord" (searchEvent)="getListCustomer(contactId, $event)"></app-paging>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" name="close" class="btn btn-danger" data-dismiss="modal" aria-hidden="true" title="Close">
+                    <i class="icon-remove"></i>Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

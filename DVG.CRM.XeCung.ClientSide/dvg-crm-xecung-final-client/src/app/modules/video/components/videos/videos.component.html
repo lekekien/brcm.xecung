@@ -1,0 +1,187 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="header-icon">
+      <i class="fa fa-user-plus"></i>
+    </div>
+    <div class="header-title">
+      <h1>Danh sách video</h1>
+      <small>Quản lý video</small>
+    </div>
+  </section>
+  <!-- Main content -->
+  <section class="content">
+      <div class="row">
+          <div class="col-sm-12">
+            <div class="card lobicard all_btn_card" id="lobicard-custom-control1" data-sortable="true">
+              <div class="card-header all_card_btn">
+                <div class="card-title custom_title">
+                  <h4>Tìm kiếm</h4>
+                </div>
+              </div>
+              <div class="card-body row">
+                <div class="col-lg-4 col-md-6">
+                  <div class="form-group">
+                    <div class="control-container">
+                      <textarea style="max-height: 35px" class="form-control"  name="filteruser"  class="form-control m-input"
+                          placeholder="Từ khóa"></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                  <div class="form-group">
+                    <div class="control-container">
+                      <select id="selVideoType" name="videotype" [(ngModel)]="videoIndex.VideoType" placeholder="--Loại video--" class="form-control" tabindex="4">
+                        <option value="0">--Loại video--</option>
+                        <option *ngFor="let item of videoViewInit.AllVideoType" value="{{item.Key}}">{{item.Value}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mg-bot-12">
+                  <div class="form-group">
+                    <div class="control-container">
+                      <app-datepickercustom 
+                        [idSelector]="'dpSearchVideoSpendDate'" 
+                        [nameSelector]="'dpSearchVideoSpendDate'"
+                        [placeholderSelector]="'--Ngày chi--'"
+                        (changedModelDate)="videoIndex.SpendDate = $event">
+                      </app-datepickercustom>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-1 col-md-3">
+                  <div class="form-group">
+                    <div class="control-container">
+                      <button class="btn btn-success" style="width: 100%;" (click)="getAllVideos(1)" name="search" type="button">
+                        Tìm kiếm
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-1 col-md-3">
+                  <div class="form-group">
+                    <div class="control-container">
+                      <button class="btn btn-primary" style="width: 100%;" (click)="userIndex.FilterKeyWord='';getAllVideos(1)" name="search" type="button">
+                        Làm lại
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    <div class="row">
+      <div class="col-lg-12 pinpin">
+        <div class="card lobicard" id="lobicard-custom-control" data-sortable="true">
+          <div class="card-header">
+            <div class="card-title custom_title">
+              <h4>Danh sách video</h4>
+            </div>
+          </div>
+          <div class="card-body">
+            <!-- Plugin content:powerpoint,txt,pdf,png,word,xl -->
+            <div class="btn-group btn-head" role="group">
+              <div class="buttonexport">
+                <a href="javascript:void(0);" [routerLink]="[ '/videos/create']" class="btn btn-add">
+                  <i class="fa fa-plus"></i> Thêm video
+                </a>
+              </div>
+            </div>
+            <!-- ./Plugin content:powerpoint,txt,pdf,png,word,xl -->
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover">
+                <thead class="back_table_color">
+                  <tr class="info hide-element-phone">
+                    <th class="w20">#</th>
+                    <th>Mã video</th>
+                    <th>Ngày tạo</th>
+                    <th>Tiêu đề</th>
+                    <th>Số hợp đồng</th>
+                    <th>Chi phí SX thực tế</th>
+                    <th>Ngày chi</th>            
+                    <th>Ngày xuất hóa đơn</th>
+                    <th>Doanh thu</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of lstVideos;let i = index">
+                    <td class="pull-left-phone" (click)="item.IsShowAll = !item.IsShowAll">
+                        <div class="toggle-wap">
+                          <span class="hide-element-out-phone label-bold-550"># : </span>{{i+1}}
+                        </div>
+                        <div class="toggle-wap-icon hide-element-out-phone">
+                            <ng-container *ngIf="item.IsShowAll else collapse">
+                              <i class="fa fa-caret-up"></i>
+                            </ng-container>
+                            <ng-template #collapse>
+                                <ng-container>
+                                  <i class="fa fa-caret-down"></i>
+                                </ng-container>
+                            </ng-template>
+                          </div>
+                    </td>
+                    <td [ngClass]="item.IsShowAll ? 'pull-left-phone' : 'hide-element-phone'">
+                      <span class="hide-element-out-phone label-bold-550">Mã video: </span>{{item.VideoCode}}
+                    </td>
+                    <td class="pull-left-phone">
+                      <span class="hide-element-out-phone label-bold-550">Ngày tạo: </span>{{item.CreatedDate | date:'MM/dd/yyyy'}}
+                    </td>
+                    <td class="pull-left-phone">
+                      <span class="hide-element-out-phone label-bold-550">Tiêu đề: </span>{{item.Title}}
+                    </td>
+                    <td class="pull-left-phone">
+                      <span class="hide-element-out-phone label-bold-550">Số hợp đồng: </span>{{item.ContractID}}
+                    </td>
+                    <td [ngClass]="item.IsShowAll ? 'pull-left-phone' : 'hide-element-phone'">
+                      <span class="hide-element-out-phone label-bold-550">Chi phí SX thực tế: </span>{{item.ActualProductionCost}}
+                    </td>
+                    <td [ngClass]="item.IsShowAll ? 'pull-left-phone' : 'hide-element-phone'">
+                      <span class="hide-element-out-phone label-bold-550">Ngày chi: </span>{{item.SpendDate | date:'MM/dd/yyyy'}}
+                    </td>
+                    <td [ngClass]="item.IsShowAll ? 'pull-left-phone' : 'hide-element-phone'">
+                      <span class="hide-element-out-phone label-bold-550">Ngày xuất hóa đơn: </span>{{item.InvoiceIssuedDate | date:'MM/dd/yyyy'}}
+                    </td>
+                    <td [ngClass]="item.IsShowAll ? 'pull-left-phone' : 'hide-element-phone'">
+                      <span class="hide-element-out-phone label-bold-550">Doanh thu: </span>{{item.Revenue}}  {{item.InvoiceIssuedDate !== null || item.InvoiceIssuedDate !== ''}}
+                    </td>
+                    <td class="pull-left-phone wap-padding-bottom-15">
+                      <span>
+                        <div class="dropdown">
+                          <button class="btn btn-primary w-md m-b-5 dropdown-toggle" id="myManagerAction"
+                            type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Manager
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="myManagerAction">
+                            <a class="dropdown-item" [routerLink]="[ '/videos/edit', item.VideoCode ]">
+                              <div class="icon-item"><i class="fa fa-edit"></i></div>
+                              <div class="text-action">Sửa thông tin</div>
+                            </a>
+                            <a class="dropdown-item" [routerLink]="[ '/videos/detail', item.VideoCode ]">
+                              <div class="icon-item"><i class="fa fa-eye"></i></div>
+                              <div class="text-action">Xem chi tiết</div>
+                            </a>
+                            <a *ngIf="isDeletable(item)" class="dropdown-item" href="javascript:void(0)" (click)="delete(item)">
+                            <!-- <a  class="dropdown-item" href="javascript:void(0)" (click)="isDeletable(item)"> -->
+                              <div class="icon-item"><i class="fa fa-trash"></i></div>
+                              <div class="text-action">Xóa</div>
+                            </a>
+                          </div>
+                        </div>
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <app-paging [pageIndex]="videoIndex.PageIndex" [pageSize]="videoIndex.PageSize"
+                [totalRecord]="videoIndex.TotalRecord" (searchEvent)="getAllVideos($event)"></app-paging>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

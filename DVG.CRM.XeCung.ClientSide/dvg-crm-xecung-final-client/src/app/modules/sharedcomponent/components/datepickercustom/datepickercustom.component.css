@@ -1,0 +1,18 @@
+.dvDateInput{
+    width: 100%; 
+    position: relative;
+}
+
+.dateInput{
+    width: 100% !important;
+}
+
+.closeDateInput{
+    position: absolute;
+    right: 0px;
+    top: 0;
+}
+
+.closeDateInput i{
+    padding: 9px 0px;
+}
